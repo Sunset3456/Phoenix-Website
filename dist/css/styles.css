@@ -114,6 +114,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 h1, .h1 {
   font-size: calc(1.375rem + 1.5vw);
+  font-family: "American Kestrel";
 }
 @media (min-width: 1200px) {
   h1, .h1 {
@@ -10928,17 +10929,23 @@ hr.divider-light {
 header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgba(31, 42, 68, 0.3) 0%, rgb(16, 27, 54, 0.8) 100%, url("../assets/img/bg-masthead.png"));
+  background: linear-gradient(to bottom, rgba(8, 17, 38, 0.55) 0%, rgba(4, 11, 28, 0.9) 100%), url("../assets/img/bg-masthead.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
-  background-size: cover;
+  background-size: contain;
+  background-color: rgba(31, 43, 69);
+  color: white;
 }
 
+.hero-section {
 
+  padding-top: 10rem;
+}
 
 header.masthead h1, header.masthead .h1 {
   font-size: 2.25rem;
+  
 }
 @media (min-width: 992px) {
   header.masthead {
@@ -10958,6 +10965,12 @@ header.masthead h1, header.masthead .h1 {
   header.masthead h1, header.masthead .h1 {
     font-size: 3.5rem;
   }
+}
+
+#about {
+
+  background-color: rgba(4, 11, 28);
+
 }
 
 #portfolio .container-fluid, #portfolio .container-sm, #portfolio .container-md, #portfolio .container-lg, #portfolio .container-xl, #portfolio .container-xxl {
