@@ -1,0 +1,215 @@
+/* --------------------------------------------------
+   Actual stuff
+   -------------------------------------------------- */
+
+
+
+.text-white-75 {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.btn-xl {
+  padding: 1.25rem 2.25rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 10rem;
+  margin: 4rem var(--btn-margin-x);
+}
+
+hr.divider {
+  height: 0.2rem;
+  max-width: 3.25rem;
+  margin: 1.5rem auto;
+  background-color: var(--main-color);
+  opacity: 1;
+}
+
+hr.divider-light {
+  background-color: #fff;
+}
+
+/* Navbar */
+#mainNav {
+  box-shadow: 0 0.5rem 1rem rgba(150, 226, 253, 0.15);
+  background-color: rgba(31, 43, 69);
+  transition: background-color 0.2s ease;
+}
+#mainNav .navbar-brand {
+  font-family: var(--sans-serif);
+  font-weight: 700;
+  color: #fff;
+}
+#mainNav .navbar-nav .nav-item .nav-link {
+  color: var(--main-color);
+  font-family: var(--sans-serif);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.75rem 0;
+}
+#mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
+  color: var(--main-color) !important;
+}
+#mainNav .navbar-nav .nav-item .nav-link.active {
+  color: var(--main-color) !important;
+}
+@media (min-width: 992px) {
+  #mainNav {
+    box-shadow: none;
+    background-color: transparent;
+  }
+  #mainNav .navbar-brand {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  #mainNav .navbar-brand:hover {
+    color: #fff;
+  }
+  #mainNav .navbar-nav .nav-item .nav-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0 1rem;
+  }
+  #mainNav .navbar-nav .nav-item .nav-link:hover {
+    color: #fff;
+  }
+  #mainNav .navbar-nav .nav-item:last-child .nav-link {
+    padding-right: 0;
+  }
+  #mainNav.navbar-shrink {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+  }
+  #mainNav.navbar-shrink .navbar-brand {
+    color: #212529;
+  }
+  #mainNav.navbar-shrink .navbar-brand:hover {
+    color: var(--main-color);
+  }
+  #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link {
+    color: #212529;
+  }
+  #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link:hover {
+    color: var(--main-color);
+  }
+}
+
+.page-section {
+    padding: 8rem 0;
+}
+
+/* Header */
+header.masthead {
+  padding-top: 10rem;
+  padding-bottom: calc(10rem - 4.5rem);
+  background: linear-gradient(to bottom, rgba(8, 17, 38, 0.55) 0%, rgba(4, 11, 28, 0.9) 90%, rgba(4, 11, 28, 1) 100%), url("../assets/img/bg-masthead.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-size: contain;
+  background-color: rgba(31, 43, 69);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+h1, .h1 {
+  font-size: 3rem;
+  font-family: "American Kestrel";
+}
+
+.header-text {
+    margin-top: 5rem;
+}
+
+@media (min-width: 992px) {
+    header.masthead {
+        height: 100vh;
+        min-height: 40rem;
+        padding-top: 4.5rem;
+        padding-bottom: 0;
+    }
+
+    header.masthead p {
+        font-size: 1.15rem;
+    }
+
+    header.masthead h1, header.masthead .h1 {
+        font-size: 4rem;
+    }
+}
+
+@media (min-width: 1200px) {
+
+    header.masthead h1, header.masthead .h1 {
+        font-size: 6rem;
+    }
+}
+@font-face {
+  font-family: "American Kestrel";
+  src: url(../assets/fonts/AmericanKestrel-Regular.ttf) format("truetype");
+}
+
+#team {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  font-family: "Cinzel";
+}
+
+p {
+  font-family: var(--sans-serif);
+  color: white;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("../assets/cinzel.ttf"), format("truetype");
+}
+
+
+.about-section {
+  background-color: var(--bg-secondary);
+  padding: 8rem 0;
+}
+
+
+/* Portfolio */
+#robot .container-fluid, #robot .container-sm, #robot .container-md, #robot .container-lg, #robot .container-xl, #robot .container-xxl {
+  max-width: 1920px;
+}
+#robot .container-fluid .portfolio-box, #robot .container-sm .portfolio-box, #robot .container-md .portfolio-box, #robot .container-lg .portfolio-box, #robot .container-xl .portfolio-box, #robot .container-xxl .portfolio-box {
+  position: relative;
+  display: block;
+}
+#robot .container-fluid .portfolio-box .portfolio-box-caption, #robot .container-sm .portfolio-box .portfolio-box-caption, #robot .container-md .portfolio-box .portfolio-box-caption, #robot .container-lg .portfolio-box .portfolio-box-caption, #robot .container-xl .portfolio-box .portfolio-box-caption, #robot .container-xxl .portfolio-box .portfolio-box-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  opacity: 0;
+  color: #fff;
+  background: rgba(244, 98, 58, 0.9);
+  transition: opacity 0.25s ease;
+}
+#robot .container-fluid .portfolio-box .portfolio-box-caption .project-category, #robot .container-sm .portfolio-box .portfolio-box-caption .project-category, #robot .container-md .portfolio-box .portfolio-box-caption .project-category, #robot .container-lg .portfolio-box .portfolio-box-caption .project-category, #robot .container-xl .portfolio-box .portfolio-box-caption .project-category, #robot .container-xxl .portfolio-box .portfolio-box-caption .project-category {
+  font-family: var(--sans-serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+#robot .container-fluid .portfolio-box .portfolio-box-caption .project-name, #robot .container-sm .portfolio-box .portfolio-box-caption .project-name, #robot .container-md .portfolio-box .portfolio-box-caption .project-name, #robot .container-lg .portfolio-box .portfolio-box-caption .project-name, #robot .container-xl .portfolio-box .portfolio-box-caption .project-name, #robot .container-xxl .portfolio-box .portfolio-box-caption .project-name {
+  font-size: 1.2rem;
+}
+#robot .container-fluid .portfolio-box:hover .portfolio-box-caption, #robot .container-sm .portfolio-box:hover .portfolio-box-caption, #robot .container-md .portfolio-box:hover .portfolio-box-caption, #robot .container-lg .portfolio-box:hover .portfolio-box-caption, #robot .container-xl .portfolio-box:hover .portfolio-box-caption, #robot .container-xxl .portfolio-box:hover .portfolio-box-caption {
+  opacity: 1;
+}
