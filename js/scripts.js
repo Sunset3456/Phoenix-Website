@@ -51,9 +51,93 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
-    // Activate SimpleLightbox plugin for portfolio items
-    new SimpleLightbox({
-        elements: '#portfolio a.portfolio-box'
-    });
+    // Portfolio modal logic
+    const portfolioModalEl = document.getElementById('portfolioModal');
+    let setupPortfolioModal;
+
+    if (portfolioModalEl) {
+        const portfolioModal = new bootstrap.Modal(portfolioModalEl);
+        const modalTitle = portfolioModalEl.querySelector('.modal-title');
+        const modalImage = portfolioModalEl.querySelector('.modal-img');
+        const modalCategory = portfolioModalEl.querySelector('.modal-category');
+        const modalDescription = portfolioModalEl.querySelector('.modal-description');
+
+        setupPortfolioModal = () => {
+            document.querySelectorAll('#robot .portfolio-box').forEach((box) => {
+                box.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const title = box.dataset.title || box.title || 'Project';
+                    const category = box.dataset.category || 'Category';
+                    const description = box.dataset.description || 'More details coming soon.';
+                    const imageSrc = box.dataset.image || box.href || box.querySelector('img')?.src;
+
+                    if (modalTitle) modalTitle.textContent = title;
+                    if (modalCategory) modalCategory.textContent = category;
+                    if (modalDescription) modalDescription.textContent = description;
+                    if (modalImage && imageSrc) {
+                        modalImage.src = imageSrc;
+                        modalImage.alt = title;
+                    }
+
+                    portfolioModal.show();
+                });
+            });
+        };
+    }
+
+    // Auto-scrolling track (left-to-right) + seamless loop
+    const portfolioTrack = document.querySelector('#robot .portfolio-track');
+    const portfolioRow = document.querySelector('#robot .row');
+
+    if (portfolioTrack && portfolioRow) {
+        // Duplicate items so we can loop seamlessly.
+        portfolioTrack.innerHTML += portfolioTrack.innerHTML;
+
+        // After duplication, re-bind click handlers (so duplicates also open the modal).
+        if (typeof setupPortfolioModal === 'function') {
+            setupPortfolioModal();
+        }
+
+        let trackHalfWidth = portfolioTrack.scrollWidth / 2;
+        let scrollLeft = trackHalfWidth;
+        const speed = 40; // pixels per second (adjust as needed)
+        let lastTimestamp = null;
+        let paused = false;
+
+        // Start in the middle so we can scroll right-to-left visually (left-to-right movement)
+        portfolioRow.scrollLeft = scrollLeft;
+
+        const step = (timestamp) => {
+            if (paused) {
+                lastTimestamp = timestamp;
+                window.requestAnimationFrame(step);
+                return;
+            }
+
+            if (lastTimestamp !== null) {
+                const delta = (timestamp - lastTimestamp) / 1000;
+                scrollLeft -= speed * delta;
+
+                if (scrollLeft <= 0) {
+                    scrollLeft += trackHalfWidth;
+                }
+
+                portfolioRow.scrollLeft = scrollLeft;
+            }
+
+            lastTimestamp = timestamp;
+            window.requestAnimationFrame(step);
+        };
+
+        /*portfolioRow.addEventListener('mouseenter', () => (paused = true));
+        portfolioRow.addEventListener('mouseleave', () => (paused = false));*/
+
+        window.addEventListener('resize', () => {
+            trackHalfWidth = portfolioTrack.scrollWidth / 2;
+            scrollLeft = Math.min(scrollLeft, trackHalfWidth);
+        });
+
+        window.requestAnimationFrame(step);
+    }
 
 });

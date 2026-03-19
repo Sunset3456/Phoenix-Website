@@ -46,6 +46,10 @@
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 33, 37, 41;
   --bs-body-bg-rgb: 255, 255, 255;
+  --bg-main-rgb: 4, 11, 28;
+  --bg-secondary-rgb: 207, 241, 253;
+  --text-main-rgb: 255, 105, 41;
+  --main-color-rgb: 255, 106, 13;
   --sans-serif: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
@@ -72,8 +76,9 @@
   --main-color: #ff3f00; 
   --hover-color: #ff6a0d;
   --bg-main: rgba(4, 11, 28);
-  --bg-secondary: rgb(150, 226, 253);
+  --bg-secondary: rgb(207, 241, 253);
   --bg-tertiary: rgba(31, 43, 69);
+  --text-main: rgb(255, 105, 41);
 }
 
 *,
@@ -3607,6 +3612,8 @@ textarea.form-control-lg {
   border-top-right-radius: 0;
 }
 
+/* Navbar */
+
 .nav {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;
@@ -4150,6 +4157,8 @@ textarea.form-control-lg {
   --bs-navbar-toggler-border-color: rgba(255, 255, 255, 0.1);
   --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
+
+/* Cards */
 
 .card {
   --bs-card-spacer-y: 1rem;
@@ -5238,7 +5247,7 @@ textarea.form-control-lg {
 .modal {
   --bs-modal-zindex: 1055;
   --bs-modal-width: 500px;
-  --bs-modal-padding: 1rem;
+  --bs-modal-padding: 3rem;
   --bs-modal-margin: 0.5rem;
   --bs-modal-color: ;
   --bs-modal-bg: #fff;
@@ -5247,9 +5256,9 @@ textarea.form-control-lg {
   --bs-modal-border-radius: 0.5rem;
   --bs-modal-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   --bs-modal-inner-border-radius: calc(0.5rem - 1px);
-  --bs-modal-header-padding-x: 1rem;
+  --bs-modal-header-padding-x: 3rem;
   --bs-modal-header-padding-y: 1rem;
-  --bs-modal-header-padding: 1rem 1rem;
+  --bs-modal-header-padding: 3rem 3rem;
   --bs-modal-header-border-color: var(--bs-border-color);
   --bs-modal-header-border-width: 1px;
   --bs-modal-title-line-height: 1.5;
@@ -8209,6 +8218,31 @@ textarea.form-control-lg {
 
 .bg-gradient {
   background-image: var(--bs-gradient) !important;
+}
+
+.bg-main {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bg-main-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-secondary {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bg-secondary-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.main-orange {
+  --bs-text-opacity: 1;
+  color: rgba(var(--main-color-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-main {
+  --bs-text-opacity: 1;
+  color: rgba(var(--text-main-rgb), var(--bs-text-opacity)) !important;
+}
+
+.text-blue {
+  --bs-text-opacity: 1;
+  color: rgba(var(--bg-main-rgb), var(--bs-text-opacity)) !important;
 }
 
 .user-select-all {
