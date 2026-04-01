@@ -63,7 +63,7 @@ window.addEventListener('DOMContentLoaded', event => {
         const modalDescription = portfolioModalEl.querySelector('.modal-description');
 
         setupPortfolioModal = () => {
-            document.querySelectorAll('#robot .portfolio-box').forEach((box) => {
+            document.querySelectorAll('#gallery .portfolio-box').forEach((box) => {
                 box.addEventListener('click', (event) => {
                     event.preventDefault();
                     const title = box.dataset.title || box.title || 'Project';
@@ -86,8 +86,8 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
     // Auto-scrolling track (left-to-right) + seamless loop
-    const portfolioTrack = document.querySelector('#robot .portfolio-track');
-    const portfolioRow = document.querySelector('#robot .row');
+    const portfolioTrack = document.querySelector('#gallery .portfolio-track');
+    const portfolioRow = document.querySelector('#gallery .row');
 
     if (portfolioTrack && portfolioRow) {
         // Duplicate items so we can loop seamlessly.
@@ -129,8 +129,13 @@ window.addEventListener('DOMContentLoaded', event => {
             window.requestAnimationFrame(step);
         };
 
-        /*portfolioRow.addEventListener('mouseenter', () => (paused = true));
-        portfolioRow.addEventListener('mouseleave', () => (paused = false));*/
+        //Pause when hovering over the track (so users can click links without it moving away). Optional.
+       /* portfolioRow.addEventListener('mouseenter', () => (paused = true));
+        portfolioRow.addEventListener('mouseleave', () => (paused = false)); */ 
+
+        portfolioRow.addEventListener('wheel', (e) => {
+            e.preventDefault();
+        }, { passive: false });
 
         window.addEventListener('resize', () => {
             trackHalfWidth = portfolioTrack.scrollWidth / 2;

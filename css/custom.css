@@ -3,13 +3,9 @@
    -------------------------------------------------- */
 
 @font-face {
-  font-family: "Cinzel";
-  src: url(../assets/fonts/cinzel.ttf), format("truetype");
-}
-
-@font-face {
   font-family: "American Kestrel";
-  src: url(../assets/fonts/AmericanKestrel-Regular.ttf) format("truetype");
+  src: url(../assets/fonts/americankestralsemistraight.woff2) format('woff2'),
+       url(../assets/fonts/americankestralsemistraight.woff) format('woff');
 }
 
 h2 {
@@ -182,14 +178,14 @@ h1, .h1 {
 
 
 /* Portfolio */
-#robot .container-fluid, #robot .container-sm, #robot .container-md, #robot .container-lg, #robot .container-xl, #robot .container-xxl {
+#gallery .container-fluid, #gallery .container-sm, #gallery .container-md, #gallery .container-lg, #gallery .container-xl, #gallery .container-xxl {
   max-width: 1920px;
 }
-#robot .container-fluid .portfolio-box, #robot .container-sm .portfolio-box, #robot .container-md .portfolio-box, #robot .container-lg .portfolio-box, #robot .container-xl .portfolio-box, #robot .container-xxl .portfolio-box {
+#gallery .container-fluid .portfolio-box, #gallery .container-sm .portfolio-box, #gallery .container-md .portfolio-box, #gallery .container-lg .portfolio-box, #gallery .container-xl .portfolio-box, #gallery .container-xxl .portfolio-box {
   position: relative;
   display: block;
 }
-#robot .container-fluid .portfolio-box .portfolio-box-caption, #robot .container-sm .portfolio-box .portfolio-box-caption, #robot .container-md .portfolio-box .portfolio-box-caption, #robot .container-lg .portfolio-box .portfolio-box-caption, #robot .container-xl .portfolio-box .portfolio-box-caption, #robot .container-xxl .portfolio-box .portfolio-box-caption {
+#gallery .container-fluid .portfolio-box .portfolio-box-caption, #gallery .container-sm .portfolio-box .portfolio-box-caption, #gallery .container-md .portfolio-box .portfolio-box-caption, #gallery .container-lg .portfolio-box .portfolio-box-caption, #gallery .container-xl .portfolio-box .portfolio-box-caption, #gallery .container-xxl .portfolio-box .portfolio-box-caption {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -204,51 +200,51 @@ h1, .h1 {
   background: rgba(244, 98, 58, 0.9);
   transition: opacity 0.25s ease;
 }
-#robot .container-fluid .portfolio-box .portfolio-box-caption .project-category, #robot .container-sm .portfolio-box .portfolio-box-caption .project-category, #robot .container-md .portfolio-box .portfolio-box-caption .project-category, #robot .container-lg .portfolio-box .portfolio-box-caption .project-category, #robot .container-xl .portfolio-box .portfolio-box-caption .project-category, #robot .container-xxl .portfolio-box .portfolio-box-caption .project-category {
+#gallery .container-fluid .portfolio-box .portfolio-box-caption .project-category, #gallery .container-sm .portfolio-box .portfolio-box-caption .project-category, #gallery .container-md .portfolio-box .portfolio-box-caption .project-category, #gallery .container-lg .portfolio-box .portfolio-box-caption .project-category, #gallery .container-xl .portfolio-box .portfolio-box-caption .project-category, #gallery .container-xxl .portfolio-box .portfolio-box-caption .project-category {
   font-family: var(--sans-serif);
   font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
 }
-#robot .container-fluid .portfolio-box .portfolio-box-caption .project-name, #robot .container-sm .portfolio-box .portfolio-box-caption .project-name, #robot .container-md .portfolio-box .portfolio-box-caption .project-name, #robot .container-lg .portfolio-box .portfolio-box-caption .project-name, #robot .container-xl .portfolio-box .portfolio-box-caption .project-name, #robot .container-xxl .portfolio-box .portfolio-box-caption .project-name {
+#gallery .container-fluid .portfolio-box .portfolio-box-caption .project-name, #gallery .container-sm .portfolio-box .portfolio-box-caption .project-name, #gallery .container-md .portfolio-box .portfolio-box-caption .project-name, #gallery .container-lg .portfolio-box .portfolio-box-caption .project-name, #gallery .container-xl .portfolio-box .portfolio-box-caption .project-name, #gallery .container-xxl .portfolio-box .portfolio-box-caption .project-name {
   font-size: 1.2rem;
 }
-#robot .container-fluid .portfolio-box:hover .portfolio-box-caption, #robot .container-sm .portfolio-box:hover .portfolio-box-caption, #robot .container-md .portfolio-box:hover .portfolio-box-caption, #robot .container-lg .portfolio-box:hover .portfolio-box-caption, #robot .container-xl .portfolio-box:hover .portfolio-box-caption, #robot .container-xxl .portfolio-box:hover .portfolio-box-caption {
+#gallery .container-fluid .portfolio-box:hover .portfolio-box-caption, #gallery .container-sm .portfolio-box:hover .portfolio-box-caption, #gallery .container-md .portfolio-box:hover .portfolio-box-caption, #gallery .container-lg .portfolio-box:hover .portfolio-box-caption, #gallery .container-xl .portfolio-box:hover .portfolio-box-caption, #gallery .container-xxl .portfolio-box:hover .portfolio-box-caption {
   opacity: 1;
 }
 
 /* Horizontal auto-scroll + card animation */
-#robot,
-#robot .container-fluid {
+#gallery,
+#gallery .container-fluid {
   overflow-x: hidden;
 }
 
-#robot .row {
+#gallery .row {
   overflow: hidden;
 }
 
-#robot .portfolio-track {
+#gallery .portfolio-track {
   display: flex;
   gap: 0;
 }
 
-#robot .row {
+#gallery .row {
   overflow-x: hidden;
   overflow-y: hidden;
   scrollbar-width: none; 
 }
 
-#robot .row::-webkit-scrollbar {
+#gallery .row::-webkit-scrollbar {
   display: none; 
 }
 
-#robot .portfolio-track > .col-lg-4,
-#robot .portfolio-track > .col-sm-6 {
+#gallery .portfolio-track > .col-lg-4,
+#gallery .portfolio-track > .col-sm-6 {
   flex: 0 0 auto;
 }
 
 
-#robot .portfolio-box:hover {
+#gallery .portfolio-box:hover {
   transform: scale(1.02);
 }
 

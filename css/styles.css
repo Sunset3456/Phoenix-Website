@@ -672,7 +672,7 @@ progress {
   margin-left: calc(-0.5 * var(--bs-gutter-x));
 }
 .row > * {
-  flex-shrink: 0;
+  flex-shrink: 1;
   width: 100%;
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * 0.5);
@@ -5244,6 +5244,8 @@ textarea.form-control-lg {
   word-wrap: break-word;
 }
 
+/* Modal */
+
 .modal {
   --bs-modal-zindex: 1055;
   --bs-modal-width: 500px;
@@ -5536,6 +5538,8 @@ textarea.form-control-lg {
     overflow-y: auto;
   }
 }
+
+/* Tooltip*/
 .tooltip {
   --bs-tooltip-zindex: 1080;
   --bs-tooltip-max-width: 200px;
