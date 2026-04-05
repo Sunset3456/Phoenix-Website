@@ -8,10 +8,17 @@
        url(../assets/fonts/americankestralsemistraight.woff) format('woff');
 }
 
-h2 {
+@font-face {
+  font-family: "Passenger Display Bold";
+  src: url(../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff2) format('woff2'),
+       url(../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff) format('woff');
+}
+
+.title {
   /*font-size: 2.5rem;*/
   font-weight: 600;
-  font-family: "Cinzel";
+  letter-spacing: 0.05em;
+  font-family: "American Kestrel";
 }
 
 p {
@@ -23,7 +30,7 @@ p {
   margin: 2.5rem auto;
 }
 
-/*@media (min-width: 992px) {
+@media (min-width: 992px) {
   p {
     font-size: 1rem;
   }
@@ -34,7 +41,7 @@ p {
     font-size: 1.25rem;
   }
 }
-*/
+
 /* Navbar */
 #mainNav {
   box-shadow: 0 0.5rem 1.5rem -0.5rem rgba(150, 226, 253, 0.15);
@@ -42,13 +49,13 @@ p {
   transition: background-color 0.2s ease;
 }
 #mainNav .navbar-brand {
-  font-family: var(--sans-serif);
+  font-family: var(--nav-font);
   font-weight: 1000;
   color: var(--main-color);
 }
 #mainNav .navbar-nav .nav-item .nav-link {
   color: var(--main-color);
-  font-family: var(--sans-serif);
+  font-family: var(--nav-font);
   font-weight: 700;
   font-size: 0.9rem;
   padding: 0.75rem 0;
@@ -109,10 +116,20 @@ p {
 }
 
 /* Header */
+
+#sparks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
 header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgba(8, 17, 38, 0.55) 0%, rgba(4, 11, 28, 0.9) 90%, rgba(4, 11, 28, 1) 100%), url("../assets/img/bg-masthead.jpg");
+  background: linear-gradient(to bottom, rgba(8, 17, 38, 0.55) 0%, rgba(3, 8, 20, 0.9) 70%, var(--bg-main) 100%), url("../assets/img/bg-masthead.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -123,16 +140,30 @@ header.masthead {
   align-items: center;
   justify-content: center;
   text-align: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.masthead .content {
+  position: relative;
+  z-index: 1;
 }
 
 h1, .h1 {
   font-size: 3rem;
   font-family: "American Kestrel";
-  margin-left: -2.5rem;
 }
 
-.header-text {
-    margin-top: 5rem;
+#header-text {
+  margin-top: 3rem;
+  padding-top: 0;
+}
+
+.team-name {
+  margin-left: -2.5rem;
+  margin-top: 1rem;
 }
 
 @media (min-width: 992px) {
@@ -144,7 +175,7 @@ h1, .h1 {
     }
 
     header.masthead p {
-        font-size: 1.15rem;
+        font-size: 1.25rem;
     }
 
     header.masthead h1, header.masthead .h1 {
@@ -159,23 +190,72 @@ h1, .h1 {
     }
 }
 
-#team {
+#team-number {
   font-size: 1.5rem;
+  margin-top: 5rem;
 }
 
 #tag-line {
     letter-spacing: 0.07em;
+    
+}
+
+.content-header {
+  background: var(--bg-main);
+  padding-top: 8rem;
+  display: flex;
+  justify-content: center;
 }
 
 /* About */
 .about-section {
   /* https://colorzilla.com/gradient-editor/#040b1c+0,4896d6+50,c2edff+100 */
-  background: linear-gradient(to bottom, rgba(4, 11, 28, 1) 0%, rgba(72, 150, 214, 1) 50%, rgba(194, 237, 255, 1) 100%);
+  background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(72, 150, 214, 1) 50%, rgba(194, 237, 255, 1) 100%);
   padding: 8rem 0;
   position: relative;
   
 }
 
+.team-member {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.team-member img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.team-member h5 {
+  color: white;
+  font-family: "American Kestrel";
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.team-member p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.coach {
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.js-center {
+  justify-self: center;
+}
 
 /* Portfolio */
 #gallery .container-fluid, #gallery .container-sm, #gallery .container-md, #gallery .container-lg, #gallery .container-xl, #gallery .container-xxl {
