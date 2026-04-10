@@ -19,6 +19,7 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   font-family: "American Kestrel";
+  text-transform: uppercase;
 }
 
 p {
@@ -151,19 +152,15 @@ header.masthead {
   z-index: 1;
 }
 
-h1, .h1 {
-  font-size: 3rem;
-  font-family: "American Kestrel";
-}
-
 #header-text {
   margin-top: 3rem;
   padding-top: 0;
 }
 
-.team-name {
+#team-name {
   margin-left: -2.5rem;
   margin-top: 1rem;
+  text-transform: capitalize;
 }
 
 @media (min-width: 992px) {
