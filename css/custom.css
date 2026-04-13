@@ -19,7 +19,7 @@
   font-weight: 600;
   letter-spacing: 0.05em;
   font-family: "American Kestrel";
-  text-transform: uppercase;
+
 }
 
 p {
@@ -43,11 +43,124 @@ p {
   }
 }
 
-/*
-*{
-  scrollbar-color: var(--main-color) transparent;
+/* --------------------------------------------------
+   Footer Styles
+   -------------------------------------------------- */
+
+.footer-section {
+  margin-bottom: 1.5rem;
 }
-*/
+
+.footer-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-top: -0.5rem;
+}
+
+.footer-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+
+  color: #fff;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.75rem;
+}
+
+.footer-description {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #ccc;
+  margin: 0;
+  display: block;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: var(--hover-color);
+  padding-left: 0.5rem;
+}
+
+.footer-contact-item {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  justify-content: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.footer-contact-item a {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-contact-item a:hover {
+  color: var(--hover-color);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+/* SimpleBar scrollbar styling with breathing room */
+.simplebar-track.simplebar-vertical {
+  padding: 8px 0;
+}
+
+.simplebar-track.simplebar-horizontal {
+  padding: 0 8px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.social-icon:hover {
+  background-color: var(--main-color);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .footer-title {
+    font-size: 1rem;
+  }
+  
+  .footer-description,
+  .footer-contact-item {
+    font-size: 0.9rem;
+  }
+}
 
 /* Navbar */
 #mainNav {
@@ -212,7 +325,7 @@ header.masthead {
 }
 
 /* About */
-.about-section {
+.gradient {
   /* https://colorzilla.com/gradient-editor/#040b1c+0,4896d6+50,c2edff+100 */
   background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(72, 150, 214, 1) 50%, rgba(194, 237, 255, 1) 100%);
   padding: 8rem 0;
