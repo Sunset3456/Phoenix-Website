@@ -1,17 +1,20 @@
-/* --------------------------------------------------
-   Actual stuff
-   -------------------------------------------------- */
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  margin: 2rem 2rem;
+}
 
 @font-face {
   font-family: "American Kestrel";
-  src: url(../assets/fonts/americankestralsemistraight.woff2) format('woff2'),
-       url(../assets/fonts/americankestralsemistraight.woff) format('woff');
+  src: url('../assets/fonts/americankestralsemistraight.woff2') format('woff2'),
+       url('../assets/fonts/americankestralsemistraight.woff') format('woff');
 }
 
 @font-face {
   font-family: "Passenger Display Bold";
-  src: url(../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff2) format('woff2'),
-       url(../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff) format('woff');
+  src: url('../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff2') format('woff2'),
+       url('../assets/fonts/PassengerDisplay-Bold-BF63f2d242ac75b.woff') format('woff');
 }
 
 .title {
@@ -41,6 +44,36 @@ p {
   p {
     font-size: 1.25rem;
   }
+}
+
+/* --------------------------------------------------
+   Navbar Dropdown Styles
+   -------------------------------------------------- */
+
+.navbar-nav .dropdown-menu {
+  background-color: var(--bg-secondary);
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 0;
+  min-width: 200px;
+  margin-top: 0.75rem;
+}
+
+.navbar-nav .dropdown-item {
+  color: black;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.navbar-nav .dropdown-item:hover {
+  background-color: var(--primary-color);
+  color: var(--main-color);
+}
+
+.navbar-nav .dropdown-toggle::after {
+  margin-left: 0.5rem;
 }
 
 /* --------------------------------------------------
