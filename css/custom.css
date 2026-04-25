@@ -196,6 +196,7 @@ p {
   }
 }
 
+
 /* Navbar */
 #mainNav {
   box-shadow: 0 0.5rem 1.5rem -0.5rem rgba(150, 226, 253, 0.15);
@@ -346,7 +347,7 @@ header.masthead {
   margin-top: 5rem;
 }
 
-#tag-line {
+.tag-line {
     letter-spacing: 0.07em;
     
 }
@@ -364,7 +365,6 @@ header.masthead {
   background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(72, 150, 214, 1) 50%, rgba(194, 237, 255, 1) 100%);
   padding: 8rem 0;
   position: relative;
-  
 }
 
 .team-member {
@@ -409,8 +409,10 @@ header.masthead {
 }
 
 /* Portfolio */
-#gallery .container-fluid, #gallery .container-sm, #gallery .container-md, #gallery .container-lg, #gallery .container-xl, #gallery .container-xxl {
+
+#gallery .container-fluid, #gallery .container-sm, #gallery .container-md, #gallery .container-lg, #gallery .container-xl, #gallery .container-xxl, .img-fluid {
   max-width: 1920px;
+  max-height: 230px;
 }
 #gallery .container-fluid .portfolio-box, #gallery .container-sm .portfolio-box, #gallery .container-md .portfolio-box, #gallery .container-lg .portfolio-box, #gallery .container-xl .portfolio-box, #gallery .container-xxl .portfolio-box {
   position: relative;
@@ -474,11 +476,90 @@ header.masthead {
   flex: 0 0 auto;
 }
 
-
-#gallery .portfolio-box:hover {
-  transform: scale(1.02);
+#gallery .portfolio-item {
+  overflow: hidden;
 }
 
+/* #gallery .portfolio-box:hover {
+  transform: scale(1.02);
+} */
 
 
+/* Keep the portfolio modal inside the viewport and prevent transform clipping */
+#portfolioModal .modal-dialog {
+  max-width: min(90vw, 960px);
+  margin: 1.5rem auto;
+}
 
+#portfolioModal .modal-content {
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+#portfolioModal .modal-body {
+  max-height: calc(90vh - 4.5rem);
+  overflow-y: auto;
+}
+
+/* Parallax image effect */
+
+.parallax-section{
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.img-cont {
+  position: absolute;
+
+  /* overflow: hidden; */
+  padding: 0;
+  min-height: 100vh;
+
+  width: 100%;
+}
+
+.img-cont img {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+  margin: 0;
+  max-height: 200vh;
+  width: 300px;
+  height: 300px;
+  overflow: hidden;
+  
+}
+
+#card-one {
+  z-index: 1;
+  width: min(52vw, 580px);
+  top: 70%;
+  left: 30%;
+  transform: translate(-50%, -50%) scale(0.75);
+}
+
+#card-two {
+  z-index: 2;
+  width: min(70vw, 820px);
+  top: 42%;
+  left: 72%;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#card-three {
+  z-index: 4;
+  width: min(45vw, 520px);
+  top: 75%;
+  left: 76%;
+  transform: translate(-50%, -50%) scale(0.8);
+}
+
+#card-four {
+  z-index: 3;
+  width: min(67vw, 800px);
+  top: 60%;
+  left: 116%;
+  transform: translate(-50%, -50%) scale(0.9);
+}

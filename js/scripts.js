@@ -1,70 +1,139 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
-function fadeIn (section){
-    gsap.from (section, {
-    scrollTrigger: {
-        trigger: section,
-        start: 'top 90%',
-    },
-    opacity: 0,
-    duration: 2,
-    y: 50,
-    ease: 'power4.out',
+let smoother = ScrollSmoother.create({
+    wrapper: '.smooth-wrapper',
+    content: '.smooth-content',
+    smooth: 1.5,
+    effects: true,
+})
+
+const cards = [
+    { id: "#card-one", endTranslateX: -150, rotate: 2},
+    { id: "#card-two", endTranslateX: -200, rotate: -4 },
+    { id: "#card-three", endTranslateX: -250, rotate: -3 },
+    { id: "#card-four", endTranslateX: -300, rotate: 3},
+];
+
+
+ScrollTrigger.create({
+    trigger: ".parallax-section",
+    start: 'top top',
+    end: "+=1000vh",
+    scrub: 1,
+    pin: true,
+    onUpdate: (self => {
+        gsap.to('.img-cont', {
+            // x: `${-350 * self.progress}vw`,
+            x: -350 * self.progress ,
+            duration: 2,
+            ease: 'power3.out'
+        })
+    })
 });
-}
-document.querySelectorAll('.fade-in').forEach((el) => {
-    fadeIn(el);
-});
 
-
-
-// How long you want the animation to take, in ms
-const animationDuration = 2000;
-// Calculate how long each ‘frame’ should last if we want to update the animation 60 times per second
-const frameDuration = 1000 / 60;
-// Use that to calculate how many frames we need to complete the animation
-const totalFrames = Math.round(animationDuration / frameDuration);
-// An ease-out function that slows the count as it progresses
-const easeOutQuad = t => t * (2 - t);
-
-// The animation function, which takes an Element
-const animateCountUp = el => {
-    let frame = 0;
-    const countTo = parseInt(el.innerHTML, 10);
-    // Start the animation running 60 times per second
-    const counter = setInterval(() => {
-        frame++;
-        // Calculate our progress as a value between 0 and 1
-        // Pass that value to our easing function to get our
-        // progress on a curve
-        const progress = easeOutQuad(frame / totalFrames);
-        // Use the progress value to calculate the current count
-        const currentCount = Math.round(countTo * progress);
-
-        // If the current count has changed, update the element
-        if (parseInt(el.innerHTML, 10) !== currentCount) {
-            el.innerHTML = currentCount;
-        }
-
-        // If we’ve reached our last frame, stop the animation
-        if (frame === totalFrames) {
-            clearInterval(counter);
-        }
-    }, frameDuration);
-};
-
-// Run the animation on all elements with a class of ‘countup’
-
-document.querySelectorAll('.stat').forEach(el => {
+cards.forEach(card =>{
     ScrollTrigger.create({
-        trigger: el,
-        start: 'top 100%',
-        onEnter: () => animateCountUp(el),
-        once: true
-    });
+        trigger: 'img',
+        start: 'top top',
+        end: '+=1000vh',
+        scrub: 1,
+        onUpdate: (self => {
+            gsap.to(card.id, {
+                x: `${card.endTranslateX * self.progress}px`,
+                rotate: `${card.rotate * self.progress}`,
+                duration: 0.5,
+                ease: 'power3.out'
+            })
+        })
+    })
 });
+
+
+/*
+const imgs = document.querySelectorAll('.img');
+if (imgs.length) {
+    smoother.effects(imgs, { speed: "auto" });    
+}
+
+const parallaxSection = document.querySelector('.parallax-section');
+if (parallaxSection) {
+    ScrollTrigger.create({
+        trigger: parallaxSection,
+        start: 'top top',
+        end: '+=100%',
+        pin: true,
+        pinSpacing: true,
+        scrub: true,
+        // markers: true,
+    });
+
+    // gsap.utils.toArray('.parallax-section .img-cont img').forEach((img) => {
+    //     const speed = Number(img.dataset.speed) || 3;
+    //     gsap.to(img, {
+    //         y: -speed,
+    //         x: 0,
+    //         ease: 'none',
+    //         scrollTrigger: {
+    //             trigger: parallaxSection,
+    //             start: 'top top',
+    //             end: 'bottom top',
+    //             scrub: true,
+                
+    //         },
+    //     });
+    // });
+}
+*/
+
+//Section fade-in animation
+document.querySelectorAll('.fade-in').forEach(section =>
+    gsap.from(section, {
+        scrollTrigger: {
+            trigger: section,
+            start: 'top 90%',
+        },
+        opacity: 0,
+        duration: 2,
+        y: 50,
+        ease: 'power4.out',
+    })
+);
+
+//Team member fade-in
+document.querySelectorAll('.team-fade').forEach(section =>
+    gsap.from(section, {
+        scrollTrigger: {
+            trigger: section,
+            start: 'top 90%',
+        },
+        opacity: 0,
+        duration: 2,
+        y: 50,
+        scale: 0.9,
+        rotation: -5,
+        ease: 'back.inOut',
+
+    })
+);
+
+
+
+
+// function loadHTML(elementId, file) {
+//     fetch(file)
+//         .then(response => response.text())
+//         .then(data => document.getElementById(elementId).innerHTML = data);
+// }
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     loadHTML("navbar", "navbar.html");
+//     loadHTML("footer", "footer.html");
+// });
 
 window.addEventListener('DOMContentLoaded', event => {
+    
+    
+    
 
     // Navbar shrink function
     var navbarShrink = function () {
@@ -113,10 +182,12 @@ window.addEventListener('DOMContentLoaded', event => {
     dropdown.addEventListener('shown.bs.dropdown', () => {
         const menu = dropdown.querySelector('.dropdown-menu');
 
-        gsap.fromTo(menu,
-            { opacity: 0, y: 10 },
-            { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }
-        );
+        gsap.from(menu, { 
+            opacity: 0, 
+            y: -10, 
+            duration: 0.3, 
+            ease: 'power2.out' 
+        });
     });
 
     // Portfolio modal logic
@@ -129,6 +200,18 @@ window.addEventListener('DOMContentLoaded', event => {
         const modalImage = portfolioModalEl.querySelector('.modal-img');
         const modalCategory = portfolioModalEl.querySelector('.modal-category');
         const modalDescription = portfolioModalEl.querySelector('.modal-description');
+
+        portfolioModalEl.addEventListener('shown.bs.modal', () => {
+            if (smoother && typeof smoother.paused === 'function') {
+                smoother.paused(true);
+            }
+        });
+
+        portfolioModalEl.addEventListener('hidden.bs.modal', () => {
+            if (smoother && typeof smoother.paused === 'function') {
+                smoother.paused(false);
+            }
+        });
 
         setupPortfolioModal = () => {
             document.querySelectorAll('#gallery .portfolio-box').forEach((box) => {
@@ -156,6 +239,7 @@ window.addEventListener('DOMContentLoaded', event => {
     // Auto-scrolling track (left-to-right) + seamless loop
     const portfolioTrack = document.querySelector('#gallery .portfolio-track');
     const portfolioRow = document.querySelector('#gallery .row');
+    const portfolioBox = document.querySelectorAll('#gallery .portfolio-box');
 
     if (portfolioTrack && portfolioRow) {
         // Duplicate items so we can loop seamlessly.
@@ -197,13 +281,23 @@ window.addEventListener('DOMContentLoaded', event => {
             window.requestAnimationFrame(step);
         };
 
-        //Pause when hovering over the track (so users can click links without it moving away). Optional.
-       /* portfolioRow.addEventListener('mouseenter', () => (paused = true));
-        portfolioRow.addEventListener('mouseleave', () => (paused = false)); */ 
+        //Pause when hovering over the track (so users can click links without it moving away).
+        // portfolioRow.addEventListener('mouseenter', () => (paused = true));
+        // portfolioRow.addEventListener('mouseleave', () => (paused = false));
 
-        portfolioRow.addEventListener('wheel', (e) => {
-            e.preventDefault();
-        }, { passive: false });
+        gsap.utils.toArray('#gallery .portfolio-box').forEach(box => {
+            gsap.to(box, {
+                scale: 1.05,
+                duration: 0.3,
+                paused: true,
+                ease: "power3.out"
+            })
+                .play(0)
+                .reverse();
+
+            box.addEventListener('mouseenter', () => gsap.to(box, { scale: 1.02 }));
+            box.addEventListener('mouseleave', () => gsap.to(box, { scale: 1 }));
+        });
 
         window.addEventListener('resize', () => {
             trackHalfWidth = portfolioTrack.scrollWidth / 2;
@@ -212,6 +306,14 @@ window.addEventListener('DOMContentLoaded', event => {
 
         window.requestAnimationFrame(step);
     }
+
+
+    
+    // document.querySelectorAll('.modal').addEventListener("click", () => {
+    //     
+        
+    // });
+    
 
     //Sparks
 
@@ -463,6 +565,63 @@ window.addEventListener('DOMContentLoaded', event => {
     }
     Fireflies.initialize()
 
+    
+
+    //Counter
+
+    const animateCountUp = el => {
+        if (el._countTween) {
+            el._countTween.kill();
+        }
+
+        const countTo = parseInt(el.dataset.countTo || el.textContent, 10);
+        const counterValue = { value: 0 };
+
+        el.textContent = '0';
+
+        el._countTween = gsap.to(counterValue, {
+            value: countTo,
+            duration: 2,
+            ease: 'power2.out',
+            onUpdate: () => {
+                el.textContent = Math.round(counterValue.value);
+            },
+            onComplete: () => {
+                el.textContent = countTo;
+                el._countTween = null;
+            }
+        });
+    };
+
+    document.querySelectorAll('.stat').forEach(el => {
+        el.dataset.countTo = parseInt(el.textContent, 10);
+        el.textContent = '0';
+
+        ScrollTrigger.create({
+            trigger: el,
+            start: 'top 90%',
+            // markers: true,
+            onEnter: () => animateCountUp(el),
+            onEnterBack: () => animateCountUp(el),
+            onLeave: () => {
+                if (el._countTween) {
+                    el._countTween.kill();
+                    el._countTween = null;
+                }
+                el.textContent = '0';
+            },
+            onLeaveBack: () => {
+                if (el._countTween) {
+                    el._countTween.kill();
+                    el._countTween = null;
+                }
+                el.textContent = '0';
+            },
+        });
+    });
+
+    
 
 });
+
 
