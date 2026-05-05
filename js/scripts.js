@@ -1,3 +1,4 @@
+
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 let smoother = ScrollSmoother.create({
@@ -7,6 +8,11 @@ let smoother = ScrollSmoother.create({
     effects: true,
 })
 
+document.querySelectorAll('.img-fluid').forEach(img =>{
+    console.log(img.width);
+    console.log(img.height);
+});
+
 const cards = [
     { id: "#card-one", endTranslateX: -150, rotate: 2},
     { id: "#card-two", endTranslateX: -200, rotate: -4 },
@@ -14,13 +20,14 @@ const cards = [
     { id: "#card-four", endTranslateX: -300, rotate: 3},
 ];
 
-
 ScrollTrigger.create({
     trigger: ".parallax-section",
     start: 'top top',
     end: "+=1000vh",
     scrub: 1,
     pin: true,
+    // pinSpacing: true,
+    // anticipatePin: 1,
     onUpdate: (self => {
         gsap.to('.img-cont', {
             // x: `${-350 * self.progress}vw`,
@@ -49,41 +56,6 @@ cards.forEach(card =>{
 });
 
 
-/*
-const imgs = document.querySelectorAll('.img');
-if (imgs.length) {
-    smoother.effects(imgs, { speed: "auto" });    
-}
-
-const parallaxSection = document.querySelector('.parallax-section');
-if (parallaxSection) {
-    ScrollTrigger.create({
-        trigger: parallaxSection,
-        start: 'top top',
-        end: '+=100%',
-        pin: true,
-        pinSpacing: true,
-        scrub: true,
-        // markers: true,
-    });
-
-    // gsap.utils.toArray('.parallax-section .img-cont img').forEach((img) => {
-    //     const speed = Number(img.dataset.speed) || 3;
-    //     gsap.to(img, {
-    //         y: -speed,
-    //         x: 0,
-    //         ease: 'none',
-    //         scrollTrigger: {
-    //             trigger: parallaxSection,
-    //             start: 'top top',
-    //             end: 'bottom top',
-    //             scrub: true,
-                
-    //         },
-    //     });
-    // });
-}
-*/
 
 //Section fade-in animation
 document.querySelectorAll('.fade-in').forEach(section =>
@@ -110,8 +82,8 @@ document.querySelectorAll('.team-fade').forEach(section =>
         duration: 2,
         y: 50,
         scale: 0.9,
-        rotation: -5,
-        ease: 'back.inOut',
+        rotation: -2.5,
+        ease: 'power4.out',
 
     })
 );
@@ -473,10 +445,8 @@ window.addEventListener('DOMContentLoaded', event => {
             this.draw()
         }
         stayWithinView() {
-            // particle.position.x = Math.max( Math.min( particle.position.x, SCREEN_WIDTH ), 0 )
-            // particle.position.y = Math.max( Math.min( particle.position.y, SCREEN_HEIGHT ), 0 )
 
-            if (this.x + this.radius >= canvas.width || this.x - this.radius <= 0) {
+            if (this.x + this.radius + 20 >= canvas.width || this.x - this.radius <= 0) {
                 this.velocity.x -= 0.07
             } else {
                 this.velocity.x += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180 // Math.random() * 0.34 - 0.17 for short
@@ -488,6 +458,7 @@ window.addEventListener('DOMContentLoaded', event => {
             }
 
         }
+        
         collide() {
             if (this.collision) {
                 this.calcField()
