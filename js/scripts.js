@@ -1,92 +1,4 @@
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-let smoother = ScrollSmoother.create({
-    wrapper: '.smooth-wrapper',
-    content: '.smooth-content',
-    smooth: 1.5,
-    effects: true,
-})
-
-document.querySelectorAll('.img-fluid').forEach(img =>{
-    console.log(img.width);
-    console.log(img.height);
-});
-
-const cards = [
-    { id: "#card-one", endTranslateX: -150, rotate: 2},
-    { id: "#card-two", endTranslateX: -200, rotate: -4 },
-    { id: "#card-three", endTranslateX: -250, rotate: -3 },
-    { id: "#card-four", endTranslateX: -300, rotate: 3},
-];
-
-ScrollTrigger.create({
-    trigger: ".parallax-section",
-    start: 'top top',
-    end: "+=1000vh",
-    scrub: 1,
-    pin: true,
-    // pinSpacing: true,
-    // anticipatePin: 1,
-    onUpdate: (self => {
-        gsap.to('.img-cont', {
-            // x: `${-350 * self.progress}vw`,
-            x: -350 * self.progress ,
-            duration: 2,
-            ease: 'power3.out'
-        })
-    })
-});
-
-cards.forEach(card =>{
-    ScrollTrigger.create({
-        trigger: 'img',
-        start: 'top top',
-        end: '+=1000vh',
-        scrub: 1,
-        onUpdate: (self => {
-            gsap.to(card.id, {
-                x: `${card.endTranslateX * self.progress}px`,
-                rotate: `${card.rotate * self.progress}`,
-                duration: 0.5,
-                ease: 'power3.out'
-            })
-        })
-    })
-});
-
-
-
-//Section fade-in animation
-document.querySelectorAll('.fade-in').forEach(section =>
-    gsap.from(section, {
-        scrollTrigger: {
-            trigger: section,
-            start: 'top 90%',
-        },
-        opacity: 0,
-        duration: 2,
-        y: 50,
-        ease: 'power4.out',
-    })
-);
-
-//Team member fade-in
-document.querySelectorAll('.team-fade').forEach(section =>
-    gsap.from(section, {
-        scrollTrigger: {
-            trigger: section,
-            start: 'top 90%',
-        },
-        opacity: 0,
-        duration: 2,
-        y: 50,
-        scale: 0.9,
-        rotation: -2.5,
-        ease: 'power4.out',
-
-    })
-);
 
 
 
@@ -104,8 +16,105 @@ document.querySelectorAll('.team-fade').forEach(section =>
 
 window.addEventListener('DOMContentLoaded', event => {
     
-    
-    
+    const { OverlayScrollbars, ClickScrollPlugin } = OverlayScrollbarsGlobal;
+
+    OverlayScrollbars.plugin(ClickScrollPlugin);
+
+    document.querySelectorAll('.os-scroll').forEach(el => {
+        OverlayScrollbars(el, {
+            scrollbars: {
+                clickScroll: true,
+                theme: 'os-theme-custom',
+            },
+        });
+    });
+
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+    let smoother = ScrollSmoother.create({
+        wrapper: '.smooth-wrapper',
+        content: '.smooth-content',
+        smooth: 1.5,
+        effects: true,
+    })
+
+    document.querySelectorAll('.img-fluid').forEach(img => {
+        console.log(img.width);
+        console.log(img.height);
+    });
+
+    const cards = [
+        { id: "#card-one", endTranslateX: -150, rotate: 2 },
+        { id: "#card-two", endTranslateX: -200, rotate: -4 },
+        { id: "#card-three", endTranslateX: -250, rotate: -3 },
+        { id: "#card-four", endTranslateX: -300, rotate: 3 },
+    ];
+
+    ScrollTrigger.create({
+        trigger: ".parallax-section",
+        start: 'top top',
+        end: "+=1000vh",
+        scrub: 1,
+        pin: true,
+        // pinSpacing: true,
+        // anticipatePin: 1,
+        onUpdate: (self => {
+            gsap.to('.img-cont', {
+                // x: `${-350 * self.progress}vw`,
+                x: -350 * self.progress,
+                duration: 2,
+                ease: 'power3.out'
+            })
+        })
+    });
+
+    cards.forEach(card => {
+        ScrollTrigger.create({
+            trigger: 'img',
+            start: 'top top',
+            end: '+=1000vh',
+            scrub: 1,
+            onUpdate: (self => {
+                gsap.to(card.id, {
+                    x: `${card.endTranslateX * self.progress}px`,
+                    rotate: `${card.rotate * self.progress}`,
+                    duration: 0.5,
+                    ease: 'power3.out'
+                })
+            })
+        })
+    });
+
+    //Section fade-in animation
+    document.querySelectorAll('.fade-in').forEach(section =>
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 90%',
+            },
+            opacity: 0,
+            duration: 2,
+            y: 50,
+            ease: 'power4.out',
+        })
+    );
+
+    //Team member fade-in
+    document.querySelectorAll('.team-fade').forEach(section =>
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 90%',
+            },
+            opacity: 0,
+            duration: 2,
+            y: 50,
+            scale: 0.9,
+            rotation: -2.5,
+            ease: 'power4.out',
+
+        })
+    );
 
     // Navbar shrink function
     var navbarShrink = function () {
@@ -570,7 +579,7 @@ window.addEventListener('DOMContentLoaded', event => {
 
         ScrollTrigger.create({
             trigger: el,
-            start: 'top 90%',
+            start: 'top 100%',
             // markers: true,
             onEnter: () => animateCountUp(el),
             onEnterBack: () => animateCountUp(el),
@@ -590,9 +599,8 @@ window.addEventListener('DOMContentLoaded', event => {
             },
         });
     });
-
     
-
+    // document.documentElement.style.visibility = 'visible';
 });
 
 
