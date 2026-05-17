@@ -1,19 +1,3 @@
-
-
-
-
-
-// function loadHTML(elementId, file) {
-//     fetch(file)
-//         .then(response => response.text())
-//         .then(data => document.getElementById(elementId).innerHTML = data);
-// }
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     loadHTML("navbar", "navbar.html");
-//     loadHTML("footer", "footer.html");
-// });
-
 window.addEventListener('DOMContentLoaded', event => {
     
     const { OverlayScrollbars, ClickScrollPlugin } = OverlayScrollbarsGlobal;
@@ -29,8 +13,6 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
     let smoother = ScrollSmoother.create({
         wrapper: '.smooth-wrapper',
         content: '.smooth-content',
@@ -38,6 +20,9 @@ window.addEventListener('DOMContentLoaded', event => {
         effects: true,
     })
 
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText); 
+
+    //Parallax effect on decode.html
     document.querySelectorAll('.img-fluid').forEach(img => {
         console.log(img.width);
         console.log(img.height);
@@ -110,11 +95,29 @@ window.addEventListener('DOMContentLoaded', event => {
             duration: 2,
             y: 50,
             scale: 0.9,
-            rotation: -2.5,
-            ease: 'power4.out',
+            rotation: -1.5,
+            ease: 'power2.out',
 
         })
     );
+
+    // Split animation
+    document.querySelectorAll('.split').forEach((el) => {
+        const split = new SplitText(el, { type: 'chars' });
+
+        gsap.from(split.chars, {
+            scrollTrigger: {
+                trigger: el,
+                start: 'top 90%',
+            },
+            reduceWhiteSpace: false,
+            duration: 1,
+            y: 25,
+            scale: 0.8,
+            autoAlpha: 0,
+            stagger: 0.05,
+        });
+    });
 
     // Navbar shrink function
     var navbarShrink = function () {
@@ -287,14 +290,6 @@ window.addEventListener('DOMContentLoaded', event => {
 
         window.requestAnimationFrame(step);
     }
-
-
-    
-    // document.querySelectorAll('.modal').addEventListener("click", () => {
-    //     
-        
-    // });
-    
 
     //Sparks
 
@@ -600,7 +595,36 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
     
-    // document.documentElement.style.visibility = 'visible';
+    const buttons = document.querySelectorAll(".btn");
+
+    buttons.forEach((btn) => {
+        let hoverTween;
+
+        btn.addEventListener("mouseenter", () => {
+            hoverTween = gsap.to(btn, {
+                y: -1,
+                scale: 1.005,
+                duration: 0.9,
+                ease: "sine.inOut",
+                transformOrigin: "center center"
+            });
+        });
+
+        btn.addEventListener("mouseleave", () => {
+            hoverTween?.kill();
+
+            
+
+            gsap.to(btn, {
+                y: 0,
+                rotation: 0,
+                scale: 1,
+                duration: 0.25,
+                ease: "power2.out"
+            });
+        });
+    });
+
 });
 
 
