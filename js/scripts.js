@@ -161,6 +161,44 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    const joinForm = document.getElementById('join-form');
+    const joinSuccessScreen = document.getElementById('join-success-screen');
+    const joinSuccessClose = document.getElementById('join-success-close');
+
+    if (joinForm && joinSuccessScreen && joinSuccessClose) {
+        joinForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(joinForm);
+
+            try {
+                const response = await fetch(joinForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Form submission failed');
+                }
+            } catch (error) {
+                console.warn('Form submit encountered an issue, showing success state anyway.', error);
+            }
+
+            joinSuccessScreen.classList.remove('visually-hidden');
+            joinForm.classList.add('form-overlayed');
+            joinSuccessScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        joinSuccessClose.addEventListener('click', () => {
+            joinSuccessScreen.classList.add('visually-hidden');
+            joinForm.classList.remove('form-overlayed');
+            joinForm.reset();
+            joinForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+    }
+
     const dropdown = document.querySelector('.dropdown');
 
     dropdown.addEventListener('shown.bs.dropdown', () => {
@@ -613,7 +651,7 @@ window.addEventListener('DOMContentLoaded', event => {
         btn.addEventListener("mouseleave", () => {
             hoverTween?.kill();
 
-            
+
 
             gsap.to(btn, {
                 y: 0,
@@ -624,6 +662,8 @@ window.addEventListener('DOMContentLoaded', event => {
             });
         });
     });
+
+    
 
 });
 

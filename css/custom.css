@@ -593,3 +593,38 @@ footer.bg-tertiary {
     font-size: 0.9rem;
   }
 }
+
+/* Join form success screen */
+.join-card {
+  position: relative;
+}
+
+#join-success-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 10;
+}
+
+#join-success-screen.visually-hidden {
+  display: none !important;
+}
+
+.success-card {
+  max-width: 560px;
+  width: 100%;
+  border: 1px solid rgba(31, 43, 69, 0.08);
+}
+
+.success-icon {
+  color: var(--main-color);
+  font-size: 3rem;
+}
+
+.join-card .form-overlayed {
+  opacity: 0.45;
+}
