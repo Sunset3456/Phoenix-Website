@@ -11,24 +11,29 @@
 #mainNav .navbar-brand {
   font-family: var(--nav-font);
   font-weight: 1000;
-  color: var(--main-color);
+  letter-spacing: 0.02em;
+
+  padding: 0 0.5rem;
+}
+
+#mainNav .navbar-brand:hover {
+  color: inherit;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
-  color: var(--main-color);
+  color: #212529;
   font-family: var(--nav-font);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   padding: 0.75rem 0;
+  transition: color 0.4s ease;
+  
 }
 
 #mainNav .navbar-nav .nav-item .nav-link:hover,
 #mainNav .navbar-nav .nav-item .nav-link:active {
-  color: var(--main-color) !important;
-}
-
-#mainNav .navbar-nav .nav-item .nav-link.active {
-  color: var(--main-color) !important;
+  color: var(--main-color);
+  
 }
 
 @media (min-width: 992px) {
@@ -42,7 +47,7 @@
   }
 
   #mainNav .navbar-brand:hover {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.7);
   }
 
   #mainNav .navbar-nav .nav-item .nav-link {
@@ -68,7 +73,7 @@
   }
 
   #mainNav.navbar-shrink .navbar-brand:hover {
-    color: var(--main-color);
+    color: inherit;
   }
 
   #mainNav.navbar-shrink .navbar-nav .nav-item .nav-link {
@@ -81,7 +86,7 @@
 }
 
 .page-section {
-  padding: 8rem 0;
+  padding: 7rem 0;
 }
 
 .navbar-logo {
@@ -160,7 +165,7 @@ header.masthead {
 }
 
 .gradient-animation {
-  background: linear-gradient(180deg, var(--bg-secondary), #8bb4e2);
+  background: linear-gradient(180deg, var(--bg-secondary), #a2d0ed);
   background-size: 400% 400%;
 
   -webkit-animation: AnimationName 25s ease infinite;
@@ -237,34 +242,52 @@ header.masthead {
 /* About */
 .gradient {
   background: linear-gradient(to bottom, var(--bg-main) 0%, var(--bg-blue) 60%, rgba(194, 237, 255, 1) 100%);
-  padding: 8rem 0;
+  padding: 5rem 0;
   position: relative;
+}
+
+.gradient-dark {
+  background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(var(--bg-blue-rgb), 0.9) 50%, rgb(128, 207, 241) 100%);
 }
 
 .team-member {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  padding: 2rem;
+  padding: 3rem;
   position: relative;
   overflow: hidden;
   transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
-.team-member::before {
+.shine::before {
   content: "";
   position: absolute;
   inset: 0;
-
+  display: block;
+  margin-top: -100%;
+  width: 250%;
+  height: 250%;
   background: linear-gradient(
-      125deg,
-      transparent 20%,
-      rgba(175, 176, 248, 0.4),
-      transparent 70%);
-
-  transform: translateX(-150%) skewX(-20deg);
-  transition: transform 1.5s ease;
-
+    125deg,
+    transparent 35%,
+    rgba(200, 201, 250, 0.25) 50%,
+    transparent 65%);
   pointer-events: none;
+  transform: translateX(-125%) skewX(-20deg);
+}
+
+.shine.shining::before {
+  animation: shine 2s ease;
+}
+
+@keyframes shine {
+  from {
+    transform: translateX(-125%) skewX(0);
+  }
+
+  to {
+    transform: translateX(150%) skewX(-20deg);
+  }
 }
 
 .team-member:hover {
@@ -272,14 +295,12 @@ header.masthead {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.team-member:hover::before {
-  transform: translateX(150%) skewX(-20deg);
-}
-
 .team-member img {
   width: 150px;
   height: 150px;
+  overflow: hidden;
   object-fit: cover;
+  border-radius: 50%;
   border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -297,20 +318,18 @@ header.masthead {
 }
 
 .coach {
-  background: rgba(var(--bg-main-rgb), 0.2);
-  border: 2px solid rgba(255, 255, 255, 0.5);
-}
-
-.js-center {
-  justify-self: center;
+  background: rgba(var(--bg-secondary-rgb), 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 /********************
 ****** Portfolio ***
 ********************/
+
 .img-fluid {
   max-width: 100%;
   height: auto;
+  overflow: hidden;
 }
 
 .img-thumbnail {
@@ -322,12 +341,12 @@ header.masthead {
   height: auto;
 }
 
-.container-fluid {
+#gallery .container-fluid {
   max-width: 100%;
   max-height: 225px;
   overflow: hidden;
-
 }
+
 .portfolio-box {
   position: relative;
   display: block;
@@ -346,6 +365,7 @@ header.masthead {
   color: #fff;
   background: rgba(244, 98, 58, 0.9);
   transition: opacity 0.25s ease;
+  visibility: hidden;
 }
 .project-category {
   font-family: var(--sans-serif);
@@ -361,33 +381,27 @@ header.masthead {
 }
 
 /* Horizontal auto-scroll + card animation */
-.container-fluid {
-  overflow-x: hidden;
-}
-
 .portfolio-track {
   display: flex;
-  gap: 0;
+  gap: 1rem;
 }
 
 .row {
-  /* overflow-x: hidden;
-  overflow-y: hidden; */
   overflow: hidden;
   scrollbar-width: none;
 }
 
-.row::-webkit-scrollbar {
-  display: none; 
-}
-
-.portfolio-track > .col-lg-4,
-.portfolio-track > .col-sm-6 {
-  flex: 0 0 auto;
+.portfolio-item img {
+  height: 225px;
+  width: auto;
+  display: block;
 }
 
 .portfolio-item {
   overflow: hidden;
+  height: auto;
+  flex: 0 0 auto;
+  
 }
 
 /* Keep the portfolio modal inside the viewport and prevent transform clipping */
@@ -397,14 +411,16 @@ header.masthead {
 }
 
 #portfolioModal .modal-content {
-  max-height: 90vh;
-  overflow: hidden;
+  max-height: 90vh;;
 }
 
 #portfolioModal .modal-body {
   max-height: calc(90vh - 4.5rem);
   overflow-y: auto;
-  scrollbar-width: auto;
+}
+
+#portfolioModal .modal-body::-webkit-scrollbar {
+  width: 0;
 }
 
 #portfolioModal .modal-img {
@@ -449,7 +465,7 @@ header.masthead {
   z-index: 1;
   width: min(52vw, 580px);
   top: 70%;
-  left: 30%;
+  left: 40%;
   transform: translate(-50%, -50%) scale(0.75);
 }
 
@@ -457,24 +473,24 @@ header.masthead {
   z-index: 2;
   width: min(70vw, 820px);
   top: 42%;
-  left: 72%;
+  left: 82%;
   transform: translate(-50%, -50%) scale(1);
-}
-
-#card-three {
-  z-index: 4;
-  width: min(45vw, 520px);
-  top: 75%;
-  left: 76%;
-  transform: translate(-50%, -50%) scale(0.8);
 }
 
 #card-four {
   z-index: 3;
   width: min(67vw, 800px);
   top: 60%;
-  left: 116%;
+  left: 126%;
   transform: translate(-50%, -50%) scale(0.9);
+}
+
+#card-three {
+  z-index: 4;
+  width: min(45vw, 520px);
+  top: 75%;
+  left: 86%;
+  transform: translate(-50%, -50%) scale(0.8);
 }
 
 /* --------------------------------------------------
@@ -594,37 +610,8 @@ footer.bg-tertiary {
   }
 }
 
-/* Join form success screen */
-.join-card {
-  position: relative;
+.stat-suffix {
+  font-family: var(--sans-serif);
+  font-style: bold;
 }
 
-#join-success-screen {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background: rgba(255, 255, 255, 0.95);
-  z-index: 10;
-}
-
-#join-success-screen.visually-hidden {
-  display: none !important;
-}
-
-.success-card {
-  max-width: 560px;
-  width: 100%;
-  border: 1px solid rgba(31, 43, 69, 0.08);
-}
-
-.success-icon {
-  color: var(--main-color);
-  font-size: 3rem;
-}
-
-.join-card .form-overlayed {
-  opacity: 0.45;
-}

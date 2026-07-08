@@ -1,5 +1,4 @@
-window.addEventListener('DOMContentLoaded', event => {
-    
+window.addEventListener('DOMContentLoaded', async () => {
     const { OverlayScrollbars, ClickScrollPlugin } = OverlayScrollbarsGlobal;
 
     OverlayScrollbars.plugin(ClickScrollPlugin);
@@ -16,59 +15,11 @@ window.addEventListener('DOMContentLoaded', event => {
     let smoother = ScrollSmoother.create({
         wrapper: '.smooth-wrapper',
         content: '.smooth-content',
-        smooth: 1.5,
+        smooth: 1,
         effects: true,
     })
 
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText); 
-
-    //Parallax effect on decode.html
-    document.querySelectorAll('.img-fluid').forEach(img => {
-        console.log(img.width);
-        console.log(img.height);
-    });
-
-    const cards = [
-        { id: "#card-one", endTranslateX: -150, rotate: 2 },
-        { id: "#card-two", endTranslateX: -200, rotate: -4 },
-        { id: "#card-three", endTranslateX: -250, rotate: -3 },
-        { id: "#card-four", endTranslateX: -300, rotate: 3 },
-    ];
-
-    ScrollTrigger.create({
-        trigger: ".parallax-section",
-        start: 'top top',
-        end: "+=1000vh",
-        scrub: 1,
-        pin: true,
-        // pinSpacing: true,
-        // anticipatePin: 1,
-        onUpdate: (self => {
-            gsap.to('.img-cont', {
-                // x: `${-350 * self.progress}vw`,
-                x: -350 * self.progress,
-                duration: 2,
-                ease: 'power3.out'
-            })
-        })
-    });
-
-    cards.forEach(card => {
-        ScrollTrigger.create({
-            trigger: 'img',
-            start: 'top top',
-            end: '+=1000vh',
-            scrub: 1,
-            onUpdate: (self => {
-                gsap.to(card.id, {
-                    x: `${card.endTranslateX * self.progress}px`,
-                    rotate: `${card.rotate * self.progress}`,
-                    duration: 0.5,
-                    ease: 'power3.out'
-                })
-            })
-        })
-    });
+    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin); 
 
     //Section fade-in animation
     document.querySelectorAll('.fade-in').forEach(section =>
@@ -78,9 +29,9 @@ window.addEventListener('DOMContentLoaded', event => {
                 start: 'top 90%',
             },
             opacity: 0,
-            duration: 2,
+            duration: 1.5,
             y: 50,
-            ease: 'power4.out',
+            ease: 'power3.out',
         })
     );
 
@@ -101,6 +52,21 @@ window.addEventListener('DOMContentLoaded', event => {
         })
     );
 
+    // Card Shine
+    const card = document.querySelectorAll('.team-member');
+    card.forEach(card => {
+
+        card.addEventListener('mouseenter', () => {
+            card.classList.add('shining');
+        });
+
+        card.addEventListener('animationend', () => {
+            if (card.classList.contains('shining')) {
+                card.classList.remove('shining');
+            }
+        });
+    });
+
     // Split animation
     document.querySelectorAll('.split').forEach((el) => {
         const split = new SplitText(el, { type: 'chars' });
@@ -110,7 +76,6 @@ window.addEventListener('DOMContentLoaded', event => {
                 trigger: el,
                 start: 'top 90%',
             },
-            reduceWhiteSpace: false,
             duration: 1,
             y: 25,
             scale: 0.8,
@@ -161,44 +126,6 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
-    const joinForm = document.getElementById('join-form');
-    const joinSuccessScreen = document.getElementById('join-success-screen');
-    const joinSuccessClose = document.getElementById('join-success-close');
-
-    if (joinForm && joinSuccessScreen && joinSuccessClose) {
-        joinForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(joinForm);
-
-            try {
-                const response = await fetch(joinForm.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        Accept: 'application/json',
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Form submission failed');
-                }
-            } catch (error) {
-                console.warn('Form submit encountered an issue, showing success state anyway.', error);
-            }
-
-            joinSuccessScreen.classList.remove('visually-hidden');
-            joinForm.classList.add('form-overlayed');
-            joinSuccessScreen.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-
-        joinSuccessClose.addEventListener('click', () => {
-            joinSuccessScreen.classList.add('visually-hidden');
-            joinForm.classList.remove('form-overlayed');
-            joinForm.reset();
-            joinForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        });
-    }
-
     const dropdown = document.querySelector('.dropdown');
 
     dropdown.addEventListener('shown.bs.dropdown', () => {
@@ -212,51 +139,83 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     });
 
+    // Navbar hover animation
+    const navBrand = document.querySelector('.navbar-brand');
+    const navSplit = new SplitText(navBrand, { type: 'chars' });
+
+    navSplit.chars.forEach(char => {
+        char.addEventListener('mouseenter', () => {
+       
+            gsap.to(char, {
+                color: '#ff3f00',
+                duration: 0.3,
+                ease: 'power3.out',
+            });
+        });
+
+        char.addEventListener('mouseleave', () => {
+            gsap.to(char, {
+                color: 'inherit',
+                delay: 0.5,
+                duration: 0.5,
+                ease: 'sine.inOut'
+            });
+        });
+    });
+    
+
     // Portfolio modal logic
     const portfolioModalEl = document.getElementById('portfolioModal');
     let setupPortfolioModal;
 
-    if (portfolioModalEl) {
-        const portfolioModal = new bootstrap.Modal(portfolioModalEl);
-        const modalTitle = portfolioModalEl.querySelector('.modal-title');
-        const modalImage = portfolioModalEl.querySelector('.modal-img');
-        const modalCategory = portfolioModalEl.querySelector('.modal-category');
-        const modalDescription = portfolioModalEl.querySelector('.modal-description');
-
-        portfolioModalEl.addEventListener('shown.bs.modal', () => {
-            if (smoother && typeof smoother.paused === 'function') {
-                smoother.paused(true);
-            }
+    document.querySelectorAll('.portfolio-box').forEach(box => {
+        box.addEventListener('click', (e) => {
+            e.preventDefault();
         });
+    });
 
-        portfolioModalEl.addEventListener('hidden.bs.modal', () => {
-            if (smoother && typeof smoother.paused === 'function') {
-                smoother.paused(false);
-            }
-        });
 
-        setupPortfolioModal = () => {
-            document.querySelectorAll('#gallery .portfolio-box').forEach((box) => {
-                box.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    const title = box.dataset.title || box.title || 'Project';
-                    const category = box.dataset.category || 'Category';
-                    const description = box.dataset.description || 'More details coming soon.';
-                    const imageSrc = box.dataset.image || box.href || box.querySelector('img')?.src;
+    // if (portfolioModalEl) {
+    //     const portfolioModal = new bootstrap.Modal(portfolioModalEl);
+    //     const modalTitle = portfolioModalEl.querySelector('.modal-title');
+    //     const modalImage = portfolioModalEl.querySelector('.modal-img');
+    //     const modalCategory = portfolioModalEl.querySelector('.modal-category');
+    //     const modalDescription = portfolioModalEl.querySelector('.modal-description');
 
-                    if (modalTitle) modalTitle.textContent = title;
-                    if (modalCategory) modalCategory.textContent = category;
-                    if (modalDescription) modalDescription.textContent = description;
-                    if (modalImage && imageSrc) {
-                        modalImage.src = imageSrc;
-                        modalImage.alt = title;
-                    }
+    //     portfolioModalEl.addEventListener('shown.bs.modal', () => {
+    //         if (smoother && typeof smoother.paused === 'function') {
+    //             smoother.paused(true);
+    //         }
+    //     });
 
-                    portfolioModal.show();
-                });
-            });
-        };
-    }
+    //     portfolioModalEl.addEventListener('hidden.bs.modal', () => {
+    //         if (smoother && typeof smoother.paused === 'function') {
+    //             smoother.paused(false);
+    //         }
+    //     });
+
+    //     setupPortfolioModal = () => {
+    //         document.querySelectorAll('#gallery .portfolio-box').forEach((box) => {
+    //             box.addEventListener('click', (event) => {
+    //                 event.preventDefault();
+    //                 const title = box.dataset.title || box.title || 'Project';
+    //                 const category = box.dataset.category || 'Category';
+    //                 const description = box.dataset.description || 'More details coming soon.';
+    //                 const imageSrc = box.dataset.image || box.href || box.querySelector('img')?.src;
+
+    //                 if (modalTitle) modalTitle.textContent = title;
+    //                 if (modalCategory) modalCategory.textContent = category;
+    //                 if (modalDescription) modalDescription.textContent = description;
+    //                 if (modalImage && imageSrc) {
+    //                     modalImage.src = imageSrc;
+    //                     modalImage.alt = title;
+    //                 }
+
+    //                 portfolioModal.show();
+    //             });
+    //         });
+    //     };
+    // }
 
     // Auto-scrolling track (left-to-right) + seamless loop
     const portfolioTrack = document.querySelector('#gallery .portfolio-track');
@@ -274,23 +233,16 @@ window.addEventListener('DOMContentLoaded', event => {
 
         let trackHalfWidth = portfolioTrack.scrollWidth / 2;
         let scrollLeft = trackHalfWidth;
-        const speed = 40; // pixels per second (adjust as needed)
+        const speedObj = { value: 30 }; // pixels per second
         let lastTimestamp = null;
-        let paused = false;
 
         // Start in the middle so we can scroll right-to-left visually (left-to-right movement)
         portfolioRow.scrollLeft = scrollLeft;
 
         const step = (timestamp) => {
-            if (paused) {
-                lastTimestamp = timestamp;
-                window.requestAnimationFrame(step);
-                return;
-            }
-
             if (lastTimestamp !== null) {
                 const delta = (timestamp - lastTimestamp) / 1000;
-                scrollLeft -= speed * delta;
+                scrollLeft -= speedObj.value * delta;
 
                 if (scrollLeft <= 0) {
                     scrollLeft += trackHalfWidth;
@@ -303,10 +255,23 @@ window.addEventListener('DOMContentLoaded', event => {
             window.requestAnimationFrame(step);
         };
 
-        //Pause when hovering over the track (so users can click links without it moving away).
-        // portfolioRow.addEventListener('mouseenter', () => (paused = true));
-        // portfolioRow.addEventListener('mouseleave', () => (paused = false));
+        //Pause when hovering over the track with smooth easing
+        portfolioRow.addEventListener('mouseenter', () => {
+            gsap.to(speedObj, { 
+                value: 0, 
+                duration: 0.4, 
+                ease: 'sine.inOut' 
+            });
+        });
+        portfolioRow.addEventListener('mouseleave', () => {
+            gsap.to(speedObj, { 
+                value: 30, 
+                duration: 0.4, 
+                ease: 'sine.inOut' 
+            });
+        });
 
+        // Hover effect for thumbnail boxes
         gsap.utils.toArray('#gallery .portfolio-box').forEach(box => {
             gsap.to(box, {
                 scale: 1.05,
@@ -317,8 +282,15 @@ window.addEventListener('DOMContentLoaded', event => {
                 .play(0)
                 .reverse();
 
-            box.addEventListener('mouseenter', () => gsap.to(box, { scale: 1.02 }));
-            box.addEventListener('mouseleave', () => gsap.to(box, { scale: 1 }));
+            box.addEventListener('mouseenter', () => gsap.to(box, { 
+                scale: 1.02,
+                rotation: 'random(-0.5, 0.5)',
+            }));
+
+            box.addEventListener('mouseleave', () => gsap.to(box, { 
+                scale: 1,
+                rotation: 0,
+            }));
         });
 
         window.addEventListener('resize', () => {
@@ -329,257 +301,6 @@ window.addEventListener('DOMContentLoaded', event => {
         window.requestAnimationFrame(step);
     }
 
-    //Sparks
-
-    const rng = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1) + min)
-    }
-
-    const rcg = colors => {
-        return colors[Math.floor(Math.random() * colors.length)]
-    }
-
-    const distance = (x1, y1, x2, y2) => {
-        const xDist = x2 - x1
-        const yDist = y2 - y1
-        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
-    }
-
-    let canvas, c, animationID
-
-    const mouse = {
-        x: undefined,
-        y: undefined,
-        prevX: undefined,
-        prevY: undefined,
-        counter: 0,
-        isMoving: () => {
-            if (mouse.counter > 50) return false
-            return true
-        }
-    }
-
-    let maxRadius
-    const fireflies = []
-    const animationLoop = _ => {
-        animationID = requestAnimationFrame(animationLoop) // Create an animation loop
-        c.clearRect(0, 0, canvas.width, canvas.height) // Clear the canvas
-
-        if (mouse.prevX == mouse.x && mouse.prevY == mouse.y) mouse.counter++
-
-        for (let i = 0; i < fireflies.length; i++) {
-            fireflies[i].fly()
-
-            if (fireflies[i].x < 0 - fireflies[i].radius || fireflies[i].x > canvas.width + fireflies[i].radius || fireflies[i].y < 0 - fireflies[i].radius || fireflies[i].y > canvas.height + fireflies[i].radius) {
-                fireflies[i].x = rng(fireflies[i].radius, canvas.width - fireflies[i].radius)
-                fireflies[i].y = rng(fireflies[i].radius, canvas.height - fireflies[i].radius)
-            }
-        }
-
-        mouse.prevX = mouse.x
-        mouse.prevY = mouse.y
-    }
-
-    const resizeEH = _ => {
-        const rect = canvas.getBoundingClientRect()
-        const dpr = window.devicePixelRatio || 1
-
-        canvas.width = rect.width * dpr
-        canvas.height = rect.height * dpr
-
-        c.setTransform(dpr, 0, 0, dpr, 0, 0)
-    }
-
-    const mouseEH = _ => {
-        mouse.x = event.clientX
-        mouse.y = event.clientY
-        mouse.counter = 0
-    }
-
-    class Fireflies {
-        static initialize(quantity = Math.floor((window.innerHeight + window.innerWidth) / 150), radius = [5, 25 + Math.floor((window.innerHeight + window.innerWidth) / 100)], color = [{
-            fill: '#ffffea',
-            glow: '#ff881b'
-        }], collision = true, pulse = true, flicker = true, connect = false) {
-            this.terminate() // Terminates all previously initialized instances
-            canvas = document.getElementById('sparks') // Get canvas element from document
-            c = canvas.getContext('2d') // Get context to access 2D canvas functions
-            const rect = canvas.getBoundingClientRect()
-
-            canvas.width = rect.width
-            canvas.height = rect.height
-            /*
-            canvas.width = window.innerWidth // Set canvas' width to full width of the window
-            canvas.height = window.innerHeight // Set canvas' height to full height of the window
-            */
-            c.globalCompositeOperation = 'screen'
-            for (let i = 0; i < quantity; i++) {
-                let r
-                if (Object.prototype.toString.call(radius) === '[object Array]') {
-                    r = rng(radius[0], radius[1])
-                    maxRadius = 1.5 * radius[1]
-                } else {
-                    r = radius
-                    maxRadius = 1.5 * radius
-                }
-                const x = rng(r, canvas.width - r)
-                const y = rng(r, canvas.height - r)
-                const randomColor = rcg(color)
-                fireflies[i] = new Firefly(x, y, r, randomColor, collision, pulse, flicker, connect)
-            }
-            addEventListener('resize', resizeEH)
-            addEventListener('mousemove', mouseEH)
-            animationLoop()
-        }
-        static terminate() {
-            cancelAnimationFrame(animationID)
-            removeEventListener('resize', resizeEH)
-            removeEventListener('mousemove', mouseEH)
-            for (let i = 0; i < fireflies.length; i++) {
-                fireflies.splice(0, fireflies.length)
-            }
-            if (canvas) {
-                canvas.remove()
-            }
-        }
-    }
-    class Firefly {
-        constructor(x, y, radius, color, collision, pulse, flicker, connect) {
-            this.x = x
-            this.y = y
-            this.radius = radius
-            this.color = {
-                fill: color.fill,
-                glow: color.glow
-            }
-            this.velocity = {
-                x: Math.random() * Math.PI,
-                y: Math.random() * Math.PI
-            }
-            this.glow = {
-                pulse: pulse,
-                flicker: flicker,
-                default: undefined,
-                strength: pulse ? rng(16, 255) : 191,
-                growing: true
-            }
-            this.collision = collision
-            this.connect = connect
-        }
-        draw() {
-            c.beginPath()
-            c.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false)
-            const gradient = c.createRadialGradient(this.x, this.y, this.radius / 10, this.x, this.y, this.radius)
-            gradient.addColorStop(1, this.color.glow + '00')
-            gradient.addColorStop(0.1, this.color.glow + this.glow.strength.toString(16))
-            gradient.addColorStop(0, this.color.fill)
-            c.fillStyle = gradient
-            c.fill()
-            c.closePath()
-        }
-        fly() {
-            this.collide()
-            this.stayWithinView() // Screenbound
-            this.x += 0.75 * Math.cos(this.velocity.x) // The number is the speed modifier
-            this.y += 0.75 * Math.sin(this.velocity.y) // The number is the speed modifier
-            this.calcGlow()
-            // this.leaveTrail()
-            this.draw()
-        }
-        stayWithinView() {
-
-            if (this.x + this.radius + 20 >= canvas.width || this.x - this.radius <= 0) {
-                this.velocity.x -= 0.07
-            } else {
-                this.velocity.x += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180 // Math.random() * 0.34 - 0.17 for short
-            }
-            if (this.y + this.radius + 100 >= canvas.height || this.y - this.radius <= 0) {
-                this.velocity.y -= 0.07
-            } else {
-                this.velocity.y += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180 // Math.random() * 0.34 - 0.17 for short
-            }
-
-        }
-        
-        collide() {
-            if (this.collision) {
-                this.calcField()
-                const thisIndex = fireflies.indexOf(this)
-                for (let i = 0; i < fireflies.length; i++) {
-                    if (fireflies[i] != fireflies[thisIndex]) {
-                        const dist = distance(this.x, this.y, fireflies[i].x, fireflies[i].y)
-                        const radii = this.radius + fireflies[i].radius
-                        if (dist <= radii) {
-                            this.velocity.x -= 0.035
-                            this.velocity.y -= 0.035
-                            if (this.connect) {
-                                c.save()
-                                c.beginPath()
-                                c.moveTo(this.x, this.y)
-                                c.lineTo(fireflies[i].x, fireflies[i].y)
-                                c.strokeStyle = `#ffffff${(Math.floor(255 - (238 * dist / radii))).toString(16)}`
-                                c.stroke()
-                                c.closePath()
-                                c.restore()
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        calcField() {
-            if (!mouse.isMoving()) return
-
-            const k = 8 // Max velocity constant
-
-            let deltaX = this.x - mouse.x // Horizontal distance between firefly and mouse
-            let deltaY = this.y - mouse.y // Vertical distance between firefly and mouse
-
-            let distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) // Distance between firefly and mouse
-            let angle = Math.atan(Math.abs(deltaY) / Math.abs(deltaX)) // Angle of firefly with respect to mouse
-
-            if (distance > 7 * maxRadius) return
-
-            let velocity = k / Math.pow(distance / (maxRadius), 1.5) // Velocity is modelled after electric field (inaccurate more conversions needed for true velocity)
-            if (distance < this.radius) velocity = k // Sets limit on field strength, this is in case mouse is within the radius
-
-            let vx = velocity * Math.cos(angle) * (deltaX / Math.abs(deltaX)) // Horizontal component of v is cos of angle times net velocity as well as the direction
-            let vy = velocity * Math.sin(angle) * (deltaY / Math.abs(deltaY)) // Vertical component of v is sin of angle times net velocity as well as the direction
-
-            if (Number.isFinite(vx)) this.x += vx //Arctan function causes some NaN numbers for fireflies, ignore these
-            if (Number.isFinite(vy)) this.y += vy
-        }
-        calcGlow() {
-            if (this.glow.default === undefined) {
-                this.glow.default = this.glow.strength
-            }
-            if (this.glow.pulse) {
-                if (this.glow.default >= 255) {
-                    this.glow.growing = false
-                } else if (this.glow.default <= 48) {
-                    this.glow.growing = true
-                }
-                if (this.glow.growing) {
-                    this.glow.default++
-                    this.glow.strength = this.glow.default
-                } else {
-                    this.glow.default--
-                    this.glow.strength = this.glow.default
-                }
-            }
-            if (this.glow.flicker) {
-                if (Math.random() > 0.99) {
-                    this.glow.strength = rng(16, 255)
-                } else {
-                    this.glow.strength = this.glow.default
-                }
-            }
-        }
-    }
-    Fireflies.initialize()
-
-    
-
     //Counter
 
     const animateCountUp = el => {
@@ -587,28 +308,30 @@ window.addEventListener('DOMContentLoaded', event => {
             el._countTween.kill();
         }
 
-        const countTo = parseInt(el.dataset.countTo || el.textContent, 10);
+        const numberEl = el.querySelector('.stat-number') || el;
+        const countTo = parseInt(el.dataset.countTo || numberEl.textContent, 10);
         const counterValue = { value: 0 };
 
-        el.textContent = '0';
+        numberEl.textContent = '0';
 
         el._countTween = gsap.to(counterValue, {
             value: countTo,
             duration: 2,
             ease: 'power2.out',
             onUpdate: () => {
-                el.textContent = Math.round(counterValue.value);
+                numberEl.textContent = Math.round(counterValue.value);
             },
             onComplete: () => {
-                el.textContent = countTo;
+                numberEl.textContent = countTo;
                 el._countTween = null;
             }
         });
     };
 
     document.querySelectorAll('.stat').forEach(el => {
-        el.dataset.countTo = parseInt(el.textContent, 10);
-        el.textContent = '0';
+        const numberEl = el.querySelector('.stat-number') || el;
+        el.dataset.countTo = parseInt(el.dataset.countTo || numberEl.textContent, 10);
+        numberEl.textContent = '0';
 
         ScrollTrigger.create({
             trigger: el,
@@ -621,24 +344,45 @@ window.addEventListener('DOMContentLoaded', event => {
                     el._countTween.kill();
                     el._countTween = null;
                 }
-                el.textContent = '0';
+                const numberEl = el.querySelector('.stat-number') || el;
+                numberEl.textContent = '0';
             },
             onLeaveBack: () => {
                 if (el._countTween) {
                     el._countTween.kill();
                     el._countTween = null;
                 }
-                el.textContent = '0';
+                const numberEl = el.querySelector('.stat-number') || el;
+                numberEl.textContent = '0';
             },
         });
     });
     
+    const svgFiles = [
+        "/assets/svg/btn1.svg",
+        "/assets/svg/btn2.svg",
+        "/assets/svg/btn3.svg"
+    ];
+
+    const svgCache = [];
+
+    await Promise.all(
+        svgFiles.map(async file => {
+            const svg = await fetch(file).then(r => r.text());
+            svgCache.push(svg);
+        })
+    );
+    
+
+
     const buttons = document.querySelectorAll(".btn");
 
     buttons.forEach((btn) => {
         let hoverTween;
+        let drawTween;
 
         btn.addEventListener("mouseenter", () => {
+
             hoverTween = gsap.to(btn, {
                 y: -1,
                 scale: 1.005,
@@ -646,12 +390,30 @@ window.addEventListener('DOMContentLoaded', event => {
                 ease: "sine.inOut",
                 transformOrigin: "center center"
             });
+
+            btn.querySelector(".scribble")?.remove();
+
+            // Select a random SVG for this button
+            const randomSvg = svgCache[Math.floor(Math.random() * svgCache.length)];
+            const svg = new DOMParser().parseFromString(randomSvg, "image/svg+xml").documentElement;
+            svg.setAttribute("preserveAspectRatio", "none");
+            svg.classList.add("scribble");
+            btn.append(svg);
+
+            // animate paths of the newly appended svg
+            const paths = svg.querySelectorAll("path");
+            gsap.set(paths, { drawSVG: "0%" });
+            paths.forEach(path => {
+                drawTween = gsap.fromTo(
+                    path,
+                    { drawSVG: 0 },
+                    { drawSVG: "100%", duration: 0.5, ease: "power3.in" }
+                );
+            });
         });
 
         btn.addEventListener("mouseleave", () => {
             hoverTween?.kill();
-
-
 
             gsap.to(btn, {
                 y: 0,
@@ -660,11 +422,27 @@ window.addEventListener('DOMContentLoaded', event => {
                 duration: 0.25,
                 ease: "power2.out"
             });
+
+            // animate and then remove the current scribble svg
+            const current = btn.querySelector('.scribble');
+            const cpaths = current.querySelectorAll('path');
+
+            cpaths.forEach(path => {
+                gsap.fromTo(path,
+                    { drawSVG: "0% 100%" },
+                    { drawSVG: "100% 100%", duration: 0.5, ease: "power3.inOut" }
+                );
+            });
+            // remove after animation
+            setTimeout(() => current.remove(), 500);
+            
         });
+
     });
 
     
 
-});
+    
 
+});
 
