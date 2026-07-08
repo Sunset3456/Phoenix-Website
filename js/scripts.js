@@ -359,9 +359,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
     
     const svgFiles = [
-        "/assets/svg/btn1.svg",
-        "/assets/svg/btn2.svg",
-        "/assets/svg/btn3.svg"
+        "assets/svg/btn1.svg",
+        "assets/svg/btn2.svg",
+        "assets/svg/btn3.svg"
     ];
 
     const svgCache = [];
