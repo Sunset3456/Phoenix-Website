@@ -8,6 +8,15 @@ const rcg = colors => {
     return colors[Math.floor(Math.random() * colors.length)]
 }
 
+const createFireflyColor = color => {
+    const palette = Array.isArray(color) ? color.filter(Boolean) : [color]
+    const selectedColor = rcg(palette)
+    const fill = Array.isArray(selectedColor?.fill) ? rcg(selectedColor.fill) : selectedColor?.fill || '#ffffea'
+    const glow = Array.isArray(selectedColor?.glow) ? rcg(selectedColor.glow) : selectedColor?.glow || ['#f88f2d', '#f16412', '#8b2a00']
+
+    return { fill, glow }
+}
+
 const distance = (x1, y1, x2, y2) => {
     const xDist = x2 - x1
     const yDist = y2 - y1
@@ -68,7 +77,7 @@ const mouseEH = _ => {
 class Fireflies {
     static initialize(quantity = Math.floor((window.innerHeight + window.innerWidth) / 150), radius = [5, 25 + Math.floor((window.innerHeight + window.innerWidth) / 100)], color = [{
         fill: '#ffffea',
-        glow: '#ff881b'
+        glow: ['#f4a135', '#f38028', '#f36528', '#ff4d00']
     }], collision = true, pulse = true, flicker = true, connect = false) {
         this.terminate() // Terminates all previously initialized instances
         canvas = document.getElementById('sparks') // Get canvas element from document
@@ -93,7 +102,7 @@ class Fireflies {
             }
             const x = rng(r, canvas.width - r)
             const y = rng(r, canvas.height - r)
-            const randomColor = rcg(color)
+            const randomColor = createFireflyColor(color)
             fireflies[i] = new Firefly(x, y, r, randomColor, collision, pulse, flicker, connect)
         }
         addEventListener('resize', resizeEH)
