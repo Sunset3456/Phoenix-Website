@@ -23,7 +23,7 @@ const distance = (x1, y1, x2, y2) => {
     return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
 }
 
-let canvas, c, animationID
+let canvas, c, animationID, canvasWidth = 0, canvasHeight = 0
 
 const mouse = {
     x: undefined,
@@ -39,6 +39,7 @@ const mouse = {
 
 let maxRadius
 const fireflies = []
+const MIN_FIREFLY_RADIUS = 15 // Change this to set the minimum firefly size.
 const animationLoop = _ => {
     animationID = requestAnimationFrame(animationLoop) // Create an animation loop
     c.clearRect(0, 0, canvas.width, canvas.height) // Clear the canvas
@@ -48,9 +49,9 @@ const animationLoop = _ => {
     for (let i = 0; i < fireflies.length; i++) {
         fireflies[i].fly()
 
-        if (fireflies[i].x < 0 - fireflies[i].radius || fireflies[i].x > canvas.width + fireflies[i].radius || fireflies[i].y < 0 - fireflies[i].radius || fireflies[i].y > canvas.height + fireflies[i].radius) {
-            fireflies[i].x = rng(fireflies[i].radius, canvas.width - fireflies[i].radius)
-            fireflies[i].y = rng(fireflies[i].radius, canvas.height - fireflies[i].radius)
+        if (fireflies[i].x < 0 - fireflies[i].radius || fireflies[i].x > canvasWidth + fireflies[i].radius || fireflies[i].y < 0 - fireflies[i].radius || fireflies[i].y > canvasHeight + fireflies[i].radius) {
+            fireflies[i].x = rng(fireflies[i].radius, canvasWidth - fireflies[i].radius)
+            fireflies[i].y = rng(fireflies[i].radius, canvasHeight - fireflies[i].radius)
         }
     }
 
@@ -62,6 +63,8 @@ const resizeEH = _ => {
     const rect = canvas.getBoundingClientRect()
     const dpr = window.devicePixelRatio || 1
 
+    canvasWidth = rect.width
+    canvasHeight = rect.height
     canvas.width = rect.width * dpr
     canvas.height = rect.height * dpr
 
@@ -83,25 +86,31 @@ class Fireflies {
         canvas = document.getElementById('sparks') // Get canvas element from document
         c = canvas.getContext('2d') // Get context to access 2D canvas functions
         const rect = canvas.getBoundingClientRect()
+        const dpr = window.devicePixelRatio || 1
 
-        canvas.width = rect.width
-        canvas.height = rect.height
+        canvasWidth = rect.width
+        canvasHeight = rect.height
+        canvas.width = rect.width * dpr
+        canvas.height = rect.height * dpr
         /*
         canvas.width = window.innerWidth // Set canvas' width to full width of the window
         canvas.height = window.innerHeight // Set canvas' height to full height of the window
         */
         c.globalCompositeOperation = 'screen'
+        c.setTransform(dpr, 0, 0, dpr, 0, 0)
         for (let i = 0; i < quantity; i++) {
             let r
             if (Object.prototype.toString.call(radius) === '[object Array]') {
-                r = rng(radius[0], radius[1])
-                maxRadius = 1.5 * radius[1]
+                const minRadius = Math.max(MIN_FIREFLY_RADIUS, radius[0])
+                const maxRadiusValue = Math.max(minRadius, radius[1])
+                r = rng(minRadius, maxRadiusValue)
+                maxRadius = 1.5 * maxRadiusValue
             } else {
-                r = radius
-                maxRadius = 1.5 * radius
+                r = Math.max(MIN_FIREFLY_RADIUS, radius)
+                maxRadius = 1.5 * r
             }
-            const x = rng(r, canvas.width - r)
-            const y = rng(r, canvas.height - r)
+            const x = rng(r, canvasWidth - r)
+            const y = rng(r, canvasHeight - r)
             const randomColor = createFireflyColor(color)
             fireflies[i] = new Firefly(x, y, r, randomColor, collision, pulse, flicker, connect)
         }
@@ -165,18 +174,30 @@ class Firefly {
         this.draw()
     }
     stayWithinView() {
+        const minX = this.radius
+        const maxX = canvasWidth - this.radius
+        const minY = this.radius
+        const maxY = canvasHeight - this.radius
 
-        if (this.x + this.radius + 20 >= canvas.width || this.x - this.radius <= 0) {
-            this.velocity.x -= 0.07
+        if (this.x <= minX) {
+            this.x = minX + 0.5
+            this.velocity.x = Math.PI - this.velocity.x
+        } else if (this.x >= maxX) {
+            this.x = maxX - 0.5
+            this.velocity.x = Math.PI - this.velocity.x
         } else {
             this.velocity.x += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180 // Math.random() * 0.34 - 0.17 for short
         }
-        if (this.y + this.radius + 100 >= canvas.height || this.y - this.radius <= 0) {
-            this.velocity.y -= 0.07
+
+        if (this.y <= minY) {
+            this.y = minY + 0.5
+            this.velocity.y = -this.velocity.y
+        } else if (this.y >= maxY) {
+            this.y = maxY - 0.5
+            this.velocity.y = -this.velocity.y
         } else {
             this.velocity.y += Math.random() * 20 * Math.PI / 180 - 10 * Math.PI / 180 // Math.random() * 0.34 - 0.17 for short
         }
-
     }
 
     collide() {

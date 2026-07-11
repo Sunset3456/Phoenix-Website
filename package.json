@@ -1,0 +1,37 @@
+{
+  "name": "phoenix-website",
+  "version": "0.0.0",
+  "description": "a website for team phoenix",
+  "keywords": [
+    "robotics",
+    "website"
+  ],
+  "private": true,
+  "homepage": "https://github.com/Sunset3456/Phoenix-Website#readme",
+  "bugs": {
+    "url": "https://github.com/Sunset3456/Phoenix-Website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sunset3456/Phoenix-Website.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "scripts.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.1.1"
+  },
+  "dependencies": {
+    "firebase": "^12.16.0",
+    "gsap": "^3.15.0",
+    "overlayscrollbars": "^2.16.0"
+  },
+  "allowScripts": {
+    "firebase@12.16.0": true
+  }
+}

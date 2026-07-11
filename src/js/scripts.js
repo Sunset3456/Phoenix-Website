@@ -1,7 +1,15 @@
-window.addEventListener('DOMContentLoaded', async () => {
-    const { OverlayScrollbars, ClickScrollPlugin } = OverlayScrollbarsGlobal;
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollSmoother } from 'gsap/ScrollSmoother';
+import { SplitText } from 'gsap/SplitText';
+import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
+import { OverlayScrollbars, ClickScrollPlugin } from 'overlayscrollbars';
 
-    OverlayScrollbars.plugin(ClickScrollPlugin);
+// Register plugins
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin);
+OverlayScrollbars.plugin(ClickScrollPlugin);
+
+window.addEventListener('DOMContentLoaded', async () => {
 
     document.querySelectorAll('.os-scroll').forEach(el => {
         OverlayScrollbars(el, {
@@ -19,7 +27,7 @@ window.addEventListener('DOMContentLoaded', async () => {
         effects: true,
     })
 
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText, DrawSVGPlugin); 
+    
 
     //Section fade-in animation
     document.querySelectorAll('.fade-in').forEach(section =>
@@ -359,9 +367,9 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
     
     const svgFiles = [
-        "assets/svg/btn1.svg",
-        "assets/svg/btn2.svg",
-        "assets/svg/btn3.svg"
+        "src/assets/svg/btn1.svg",
+        "src/assets/svg/btn2.svg",
+        "src/assets/svg/btn3.svg"
     ];
 
     const svgCache = [];
