@@ -2,8 +2,8 @@
 
 @font-face {
   font-family: "American Kestrel";
-  src: url('../assets/fonts/americankestralsemistraight.woff2') format('woff2'),
-    url('../assets/fonts/americankestralsemistraight.woff') format('woff');
+  src: url('fonts/americankestralsemistraight.woff2') format('woff2'),
+    url('fonts/americankestralsemistraight.woff') format('woff');
   font-display: block;
 }
 
