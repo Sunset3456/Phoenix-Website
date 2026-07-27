@@ -376,15 +376,20 @@ window.addEventListener('DOMContentLoaded', async () => {
 
     const svgCache = [];
 
-    await Promise.all(
-        svgFiles.map(async file => {
-            const svg = await fetch(file).then(r => r.text());
-            svgCache.push(svg);
-        })
-    );
+    try {
+        await Promise.all(
+            svgFiles.map(async file => {
+                const res = await fetch(file);
+                if (res.ok) {
+                    const svg = await res.text();
+                    svgCache.push(svg);
+                }
+            })
+        );
+    } catch (e) {
+        console.warn('SVG preload warning:', e);
+    }
     
-
-
     const buttons = document.querySelectorAll(".btn");
 
     buttons.forEach((btn) => {

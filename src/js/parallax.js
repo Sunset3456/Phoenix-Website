@@ -3,36 +3,39 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-window.addEventListener('DOMContentLoaded', () => {
+function initTimeline() {
     const timelineSection = document.querySelector('.timeline-section');
     const circle = document.querySelector('#tl-circle, #timeline-circle');
     const lineBar = document.querySelector('.tl-line');
 
     if (!timelineSection || !circle) return;
 
-    // 1. Pin the circle node at the center of the viewport (50vh) when scrolling through the timeline section
+    // Prevent mobile resize jumps
+    ScrollTrigger.config({ ignoreMobileResize: true });
+
+    // 1. Pin circle at 50vh (viewport center) during timeline scroll
     ScrollTrigger.create({
         trigger: timelineSection,
         start: 'top 50%',
         end: 'bottom 50%',
         pin: circle,
         pinSpacing: false,
+        invalidateOnRefresh: true,
     });
 
     // 2. Fade in both the circle and central line as the timeline section scrolls into view
-
-        gsap.to(circle, {
-            scale: 1,
-            duration: 0.3,
-            ease: 'power2.inOut',
-            scrollTrigger: {
-                trigger: timelineSection,
-                start: 'top 50%',
-                end: 'bottom 20%',
-                // markers: true,
-                toggleActions: 'play reverse play reverse',
-            }
-        });
+    gsap.to(circle, {
+        scale: 1,
+        duration: 0.3,
+        ease: 'power2.inOut',
+        scrollTrigger: {
+            trigger: timelineSection,
+            start: 'top 50%',
+            end: 'bottom 20%',
+            toggleActions: 'play reverse play reverse',
+            invalidateOnRefresh: true,
+        }
+    });
 
     if (lineBar) {
         gsap.to(lineBar, {
@@ -52,13 +55,13 @@ window.addEventListener('DOMContentLoaded', () => {
             { scaleY: 0 },
             {
                 scaleY: 1,
-
                 ease: 'none',
                 scrollTrigger: {
                     trigger: timelineSection,
                     start: 'top 50%',
                     end: 'bottom 50%',
                     scrub: true,
+                    invalidateOnRefresh: true,
                 }
             }
         );
@@ -82,26 +85,46 @@ window.addEventListener('DOMContentLoaded', () => {
         const startX = isRight ? 40 : -40;
 
         gsap.fromTo(cardElem,
-            {
-                y: 120,
-                x: startX,
-                autoAlpha: 0,
-                scale: 0.92,
-            },
+            { y: 120, x: startX, autoAlpha: 0, scale: 0.92 },
             {
                 y: 0,
+                x: 0,
                 autoAlpha: 1,
                 scale: 1,
                 duration: 0.8,
-                ease: 'sine.inOut',
+                ease: 'power3.out',
                 scrollTrigger: {
                     trigger: wrapperElem,
-                    start: 'top 80%',
-                    end: 'top 40%',
-                    // markers: true,
-                    toggleActions: 'play none none reverse',
+                    start: 'top 85%',
+                    end: 'bottom 15%',
+                    toggleActions: 'play none play reverse',
+                    invalidateOnRefresh: true,
                 }
             }
         );
     });
+
+    // 5. Force ScrollTrigger refresh when images load / window loads to fix stale layout measurements
+    const timelineImgs = timelineSection.querySelectorAll('img');
+    timelineImgs.forEach((img) => {
+        if (img.complete) return;
+        img.addEventListener('load', () => ScrollTrigger.refresh());
+        img.addEventListener('error', () => setTimeout(() => ScrollTrigger.refresh(), 100));
+    });
+
+    // Delayed refreshes for dynamic/fallback content
+    setTimeout(() => ScrollTrigger.refresh(), 300);
+    setTimeout(() => ScrollTrigger.refresh(), 1000);
+    setTimeout(() => ScrollTrigger.refresh(), 2500);
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', initTimeline);
+} else {
+    initTimeline();
+}
+
+window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
 });
