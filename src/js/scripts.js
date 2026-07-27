@@ -1,3 +1,5 @@
+
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollSmoother } from 'gsap/ScrollSmoother';
@@ -399,25 +401,25 @@ window.addEventListener('DOMContentLoaded', async () => {
                 transformOrigin: "center center"
             });
 
-            btn.querySelector(".scribble")?.remove();
+            // btn.querySelector(".scribble")?.remove();
 
-            // Select a random SVG for this button
-            const randomSvg = svgCache[Math.floor(Math.random() * svgCache.length)];
-            const svg = new DOMParser().parseFromString(randomSvg, "image/svg+xml").documentElement;
-            svg.setAttribute("preserveAspectRatio", "none");
-            svg.classList.add("scribble");
-            btn.append(svg);
+            // // Select a random SVG for this button
+            // const randomSvg = svgCache[Math.floor(Math.random() * svgCache.length)];
+            // const svg = new DOMParser().parseFromString(randomSvg, "image/svg+xml").documentElement;
+            // svg.setAttribute("preserveAspectRatio", "none");
+            // svg.classList.add("scribble");
+            // btn.append(svg);
 
-            // animate paths of the newly appended svg
-            const paths = svg.querySelectorAll("path");
-            gsap.set(paths, { drawSVG: "0%" });
-            paths.forEach(path => {
-                drawTween = gsap.fromTo(
-                    path,
-                    { drawSVG: 0 },
-                    { drawSVG: "100%", duration: 0.5, ease: "power3.in" }
-                );
-            });
+            // // animate paths of the newly appended svg
+            // const paths = svg.querySelectorAll("path");
+            // gsap.set(paths, { drawSVG: "0%" });
+            // paths.forEach(path => {
+            //     drawTween = gsap.fromTo(
+            //         path,
+            //         { drawSVG: 0 },
+            //         { drawSVG: "100%", duration: 0.5, ease: "power3.in" }
+            //     );
+            // });
         });
 
         btn.addEventListener("mouseleave", () => {
@@ -432,17 +434,17 @@ window.addEventListener('DOMContentLoaded', async () => {
             });
 
             // animate and then remove the current scribble svg
-            const current = btn.querySelector('.scribble');
-            const cpaths = current.querySelectorAll('path');
+            // const current = btn.querySelector('.scribble');
+            // const cpaths = current.querySelectorAll('path');
 
-            cpaths.forEach(path => {
-                gsap.fromTo(path,
-                    { drawSVG: "0% 100%" },
-                    { drawSVG: "100% 100%", duration: 0.5, ease: "power3.inOut" }
-                );
-            });
-            // remove after animation
-            setTimeout(() => current.remove(), 500);
+            // cpaths.forEach(path => {
+            //     gsap.fromTo(path,
+            //         { drawSVG: "0% 100%" },
+            //         { drawSVG: "100% 100%", duration: 0.5, ease: "power3.inOut" }
+            //     );
+            // });
+            // // remove after animation
+            // setTimeout(() => current.remove(), 500);
             
         });
 
