@@ -22,5 +22,5 @@ export default defineConfig({
             },
         },
     },
-    base: '/Phoenix-Website/',
+    base: '/phoenix-website/',
 });

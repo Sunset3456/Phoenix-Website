@@ -21,22 +21,40 @@ function initTimeline() {
         pin: circle,
         pinSpacing: false,
         invalidateOnRefresh: true,
+        // markers: true
     });
 
-    // 2. Fade in both the circle and central line as the timeline section scrolls into view
-    gsap.to(circle, {
+    if (circle){
+
+        gsap.to(circle, {
         scale: 1,
         duration: 0.3,
         ease: 'power2.inOut',
         scrollTrigger: {
             trigger: timelineSection,
             start: 'top 50%',
-            end: 'bottom 20%',
+            end: '90% 50%',
             toggleActions: 'play reverse play reverse',
             invalidateOnRefresh: true,
         }
-    });
+        });
 
+        // gsap.fromTo(circle,
+        //     { autoAlpha: 1 },
+        //     {
+        //         autoAlpha: 0,
+        //         // ease: 'none',
+        //         scrollTrigger: {
+        //             trigger: timelineSection,
+        //             start: 'top 50%',
+        //             end: 'bottom 50%',
+        //             scrub: true,
+        //             invalidateOnRefresh: true,
+        //         }
+        //     }
+        // );
+    }
+    
     if (lineBar) {
         gsap.to(lineBar, {
             autoAlpha: 1,
@@ -45,16 +63,19 @@ function initTimeline() {
             scrollTrigger: {
                 trigger: timelineSection,
                 start: 'top 80%',
-                end: 'bottom 20%',
+                end: '90% 50%',
                 toggleActions: 'play reverse play reverse',
             }
         });
 
-        // 3. Line grows downward as user scrolls (circle leads the tip at screen center)
         gsap.fromTo(lineBar,
-            { scaleY: 0 },
+            { 
+                scaleY: 0,
+                autoAlpha: 1,
+            },
             {
                 scaleY: 1,
+                // autoAlpha: 0,
                 ease: 'none',
                 scrollTrigger: {
                     trigger: timelineSection,
